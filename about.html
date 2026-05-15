@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>About Us | Scorza – Fixed Hero Banner</title>
+  <link rel="icon" type="image/jpeg" href="images/growwpark_logo.jpg">
+  <!-- Tailwind CSS v3 + Font Awesome + Google Fonts -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              primary: '#e69d0b',
+              light: '#f0b341',
+              dark: '#d48a0a',
+            },
+            footer: {
+              bg: '#2c1810',
+              text: '#d4c5b8',
+            },
+            darkBg: '#121212',
+            darkCard: '#1e1e2a',
+            darkSurface: '#0f0f14',
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+          animation: {
+            'fade-in': 'fadeIn 0.2s ease-out',
+            'slide-down': 'slideDown 0.2s ease-out',
+            'float-slow': 'float 6s ease-in-out infinite',
+          },
+          keyframes: {
+            fadeIn: {
+              '0%': { opacity: '0' },
+              '100%': { opacity: '1' },
+            },
+            slideDown: {
+              '0%': { opacity: '0', transform: 'translateY(-8px)' },
+              '100%': { opacity: '1', transform: 'translateY(4px)' },
+            },
+            float: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-10px)' },
+            },
+          },
+        },
+      },
+    }
+  </script>
+  <style>
+    /* --- FIXED HERO BACKGROUND (parallax / fixed effect) --- */
+    .hero-fixed-bg {
+      background-image: url('https://images.pexels.com/photos/1183266/pexels-photo-1183266.jpeg?auto=compress&cs=tinysrgb&w=1600');
+      background-size: cover;
+      background-position: center 30%;
+      background-repeat: no-repeat;
+      background-attachment: fixed;   /* KEY: creates the fixed / parallax effect */
+    }
+    /* Fallback for browsers that don't support fixed attachment well, keeps readability */
+    @media (max-width: 1024px) {
+      .hero-fixed-bg {
+        background-attachment: scroll; /* better mobile performance, but still nice */
+        background-position: center;
+      }
+    }
+    /* Dark overlay to ensure text contrast */
+    .hero-overlay-dark {
+      background: linear-gradient(135deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.3) 100%);
+    }
+    .dropdown-menu {
+      transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
+    }
+    .dropdown.active .dropdown-menu {
+      opacity: 1 !important;
+      visibility: visible !important;
+      transform: translateX(-50%) translateY(6px) !important;
+    }
+    [dir="rtl"] .dropdown.active .dropdown-menu {
+      transform: translateX(50%) translateY(6px) !important;
+    }
+    .mobile-dropdown-menu {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .mobile-dropdown.active .mobile-dropdown-menu {
+      max-height: 380px;
+    }
+    .mobile-nav-menu {
+      transition: right 0.35s ease;
+    }
+    [dir="rtl"] .mobile-nav-menu {
+      right: auto;
+      left: -100%;
+      transition: left 0.35s ease;
+    }
+    [dir="rtl"] .mobile-nav-menu.open {
+      left: 0 !important;
+      right: auto !important;
+    }
+    .mobile-nav-menu.open {
+      right: 0 !important;
+    }
+    .mobile-overlay {
+      transition: opacity 0.25s ease;
+    }
+    .footer-links a {
+      transition: all 0.25s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .footer-links a:hover {
+      transform: translateX(5px);
+      color: #e69d0b;
+    }
+    [dir="rtl"] .footer-links a:hover {
+      transform: translateX(-5px);
+    }
+    body {
+      transition: background-color 0.2s ease, color 0.2s ease;
+      background-color: #ffffff;
+      color: #1a1a2e;
+    }
+    body.dark {
+      background-color: #121212;
+      color: #e0e0e0;
+    }
+  @media (max-width: 1024px) {
+  .desktop-menu {
+    display: none !important;
+  }
+
+  .mobile-menu-btn {
+    display: flex !important;
+  }
+
+  /* HIDE RTL + THEME BUTTONS IN MOBILE NAVBAR */
+  .desktop-only-control {
+    display: none !important;
+  }
+}
+
+@media (min-width: 1025px) {
+  .mobile-menu-btn {
+    display: none !important;
+  }
+
+  .desktop-menu {
+    display: flex !important;
+  }
+
+  /* SHOW RTL + THEME BUTTONS ONLY ON DESKTOP */
+  .desktop-only-control {
+    display: flex !important;
+  }
+}
+    @media (min-width: 1025px) {
+      .mobile-menu-btn {
+        display: none !important;
+      }
+      .desktop-menu {
+        display: flex !important;
+      }
+    }
+    .nav-link {
+      transition: all 0.2s;
+    }
+    .mobile-nav-links a.active {
+      background: rgba(255,255,255,0.25);
+      border-left: 3px solid white;
+      font-weight: 600;
+    }
+    [dir="rtl"] .mobile-nav-links a.active {
+      border-left: none;
+      border-right: 3px solid white;
+    }
+    .team-card {
+      transition: all 0.3s ease;
+    }
+    .team-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.2);
+    }
+    .team-image {
+      transition: transform 0.4s ease;
+    }
+    .team-card:hover .team-image {
+      transform: scale(1.05);
+    }
+    .dark .bg-gray-50 {
+      background-color: #0a0a0f !important;
+    }
+    .dark .bg-white {
+      background-color: #1e1e2a !important;
+    }
+    .dark section.bg-gray-50 {
+      background-color: #0a0a0f !important;
+    }
+    .dark .bg-brand-primary\/5 {
+      background-color: rgba(230, 157, 11, 0.08) !important;
+    }
+    body.dark .text-gray-600,
+    body.dark .text-gray-500,
+    body.dark .text-gray-700 {
+      color: #cbd5e1 !important;
+    }
+    body.dark .text-gray-800,
+    body.dark .text-gray-900 {
+      color: #f1f5f9 !important;
+    }
+    body.dark .text-footer-text {
+      color: #d4c5b8 !important;
+    }
+    body.dark .glass-card,
+    body.dark .bg-white.dark\:bg-darkCard {
+      background-color: #1e1e2a !important;
+    }
+    body.dark .border-gray-100 {
+      border-color: #2d2d3a !important;
+    }
+    body.dark .bg-gray-100 {
+      background-color: #2a2a35 !important;
+    }
+    body.dark .text-brand-primary {
+      color: #f0b341 !important;
+    }
+    body.dark .hero-overlay-dark {
+      background: linear-gradient(135deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.4) 100%);
+    }
+    .container-custom {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+    /* Dark mode footer */
+body.dark footer,
+body.dark footer.bg-footer-bg {
+  background-color: #000000 !important;
+}
+  </style>
+</head>
+<body class="bg-white dark:bg-darkBg text-gray-900 dark:text-gray-100 font-sans antialiased">
+
+  <div class="min-h-screen flex flex-col">
+    <!-- Mobile Overlay -->
+    <div class="mobile-overlay fixed inset-0 bg-black/70 z-[1000] hidden opacity-0" id="mobileOverlay"></div>
+
+    <!-- Header Navbar -->
+    <header class="fixed top-0 left-0 right-0 z-[1000] bg-gradient-to-r from-brand-primary to-brand-light shadow-md">
+      <nav class="max-w-[1400px] mx-auto px-4 py-3 md:py-3">
+        <div class="bg-white dark:bg-darkCard rounded-2xl shadow-xl px-4 md:px-6 py-2 flex items-center justify-between min-h-[64px] transition-colors duration-300">
+          <div class="flex-shrink-0">
+            <a href="index.html" class="logo text-2xl md:text-3xl font-extrabold tracking-tight text-brand-primary whitespace-nowrap drop-shadow-sm">Scorza</a>
+          </div>
+          
+          <!-- Desktop Menu (hidden on tablet/mobile) -->
+          <div class="hidden lg:flex flex-1 justify-center desktop-menu">
+            <ul class="flex items-center gap-1 xl:gap-1.5">
+              <li class="dropdown relative" id="homeDropdown">
+                <a href="#" class="dropdown-toggle flex items-center gap-1 text-sm font-semibold px-4 py-2 rounded-full text-gray-800 dark:text-gray-200 hover:bg-brand-primary hover:text-white transition-all duration-200">Home <i class="fas fa-chevron-down text-[10px] ml-1 transition-transform"></i></a>
+                <ul class="dropdown-menu absolute top-full left-1/2 -translate-x-1/2 bg-white dark:bg-darkCard rounded-xl shadow-lg min-w-[170px] py-2 opacity-0 invisible z-[1000] border border-gray-200 dark:border-gray-700">
+                  <li><a href="index.html" class="block px-5 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-brand-primary hover:text-white hover:pl-6 transition-all">Home 1</a></li>
+                  <li><a href="Home2.html" class="block px-5 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-brand-primary hover:text-white hover:pl-6 transition-all">Home 2</a></li>
+                </ul>
+              </li>
+              <li><a href="About.html" class="nav-link text-sm font-semibold px-4 py-2 rounded-full bg-brand-primary text-white transition-all">About</a></li>
+              <li><a href="service.html" class="nav-link text-sm font-semibold px-4 py-2 rounded-full text-gray-800 dark:text-gray-200 hover:bg-brand-primary hover:text-white transition-all">Services</a></li>
+              <li><a href="pricing.html" class="nav-link text-sm font-semibold px-4 py-2 rounded-full text-gray-800 dark:text-gray-200 hover:bg-brand-primary hover:text-white transition-all">Pricing</a></li>
+              <li><a href="flavorlab.html" class="nav-link text-sm font-semibold px-4 py-2 rounded-full text-gray-800 dark:text-gray-200 hover:bg-brand-primary hover:text-white transition-all">FlavorLab</a></li>
+              <li><a href="FAQ.html" class="nav-link text-sm font-semibold px-4 py-2 rounded-full text-gray-800 dark:text-gray-200 hover:bg-brand-primary hover:text-white transition-all">FAQs</a></li>
+              <li><a href="contact.html" class="nav-link text-sm font-semibold px-4 py-2 rounded-full text-gray-800 dark:text-gray-200 hover:bg-brand-primary hover:text-white transition-all">Contact</a></li>
+              <li class="dropdown relative" id="dashboardDropdown">
+                <a href="#" class="dropdown-toggle flex items-center gap-1 text-sm font-semibold px-4 py-2 rounded-full text-gray-800 dark:text-gray-200 hover:bg-brand-primary hover:text-white transition-all">Dashboard <i class="fas fa-chevron-down text-[10px] ml-1"></i></a>
+                <ul class="dropdown-menu absolute top-full left-1/2 -translate-x-1/2 bg-white dark:bg-darkCard rounded-xl shadow-lg min-w-[170px] py-2 opacity-0 invisible z-[1000] border border-gray-200 dark:border-gray-700">
+                  <li><a href="admin.html" class="block px-5 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-brand-primary hover:text-white hover:pl-6 transition-all">Admin</a></li>
+                  <li><a href="user.html" class="block px-5 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-brand-primary hover:text-white hover:pl-6 transition-all">User</a></li>
+                </ul>
+              </li>
+              <li><a href="login.html" class="text-sm font-semibold px-5 py-2 rounded-full bg-brand-primary text-white hover:bg-brand-dark transition-all shadow"> Login</a></li>
+            </ul>
+          </div>
+          
+          <!-- Right Controls -->
+          <div class="flex items-center gap-2">
+            <button class="desktop-only-control w-9 h-9 rounded-full flex items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all text-xl" id="themeToggle" title="Toggle theme">🌙</button>
+            <button class="desktop-only-control px-3 py-1.5 rounded-full text-sm font-semibold bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 hover:bg-brand-primary hover:text-white transition-all shadow-sm flex items-center gap-1" id="rtlToggleDesktop">
+              <span id="rtlToggleText">RTL</span>
+              <i class="fas fa-arrow-right-arrow-left text-xs opacity-70"></i>
+            </button>
+            <button class="mobile-menu-btn w-10 h-10 rounded-full flex items-center justify-center text-brand-primary dark:text-brand-light text-2xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-all" id="mobileMenuBtn" style="display: none;">
+              <i class="fas fa-bars"></i>
+            </button>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Mobile Navigation Drawer (unchanged) -->
+    <div class="mobile-nav-menu fixed top-0 right-[-100%] w-[85%] max-w-sm h-full bg-gradient-to-br from-brand-primary to-brand-light z-[1001] shadow-2xl p-6 flex flex-col transition-all duration-300 overflow-y-auto" id="mobileNavMenu">
+      <button class="close-btn absolute top-5 right-5 text-white text-3xl hover:opacity-80 transition-all" id="closeMenuBtn">✕</button>
+      <ul class="mobile-nav-links flex flex-col gap-2 mt-14 flex-1">
+        <li class="mobile-dropdown" id="mobileHomeDropdown">
+          <a href="#" class="mobile-dropdown-toggle flex justify-between items-center w-full text-white font-semibold text-base py-3 px-4 rounded-xl border border-white/20 hover:bg-white/15 transition-all">Home <i class="fas fa-chevron-down text-xs transition-transform"></i></a>
+          <ul class="mobile-dropdown-menu list-none pl-5 mt-1 space-y-1">
+            <li><a href="index.html" class="block py-2 px-3 text-white/90 hover:bg-white/20 rounded-lg text-sm">Home 1</a></li>
+            <li><a href="Home2.html" class="block py-2 px-3 text-white/90 hover:bg-white/20 rounded-lg text-sm">Home 2</a></li>
+          </ul>
+        </li>
+        <li><a href="About.html" class="active block text-white font-semibold text-base py-3 px-4 rounded-xl bg-white/25 border border-white/30">About</a></li>
+        <li><a href="service.html" class="block text-white font-semibold text-base py-3 px-4 rounded-xl border border-white/20 hover:bg-white/15 transition-all">Services</a></li>
+        <li><a href="pricing.html" class="block text-white font-semibold text-base py-3 px-4 rounded-xl border border-white/20 hover:bg-white/15 transition-all">Pricing</a></li>
+        <li><a href="flavorlab.html" class="block text-white font-semibold text-base py-3 px-4 rounded-xl border border-white/20 hover:bg-white/15 transition-all">Flavorlab</a></li>
+        <li><a href="FAQ.html" class="block text-white font-semibold text-base py-3 px-4 rounded-xl border border-white/20 hover:bg-white/15 transition-all">FAQs</a></li>
+        <li><a href="contact.html" class="block text-white font-semibold text-base py-3 px-4 rounded-xl border border-white/20 hover:bg-white/15 transition-all">Contact</a></li>
+        <li class="mobile-dropdown" id="mobileDashboardDropdown">
+          <a href="#" class="mobile-dropdown-toggle flex justify-between items-center w-full text-white font-semibold text-base py-3 px-4 rounded-xl border border-white/20 hover:bg-white/15 transition-all">Dashboard <i class="fas fa-chevron-down text-xs"></i></a>
+          <ul class="mobile-dropdown-menu list-none pl-5 mt-1 space-y-1">
+            <li><a href="admin.html" class="block py-2 px-3 text-white/90 hover:bg-white/20 rounded-lg text-sm">Admin</a></li>
+            <li><a href="user.html" class="block py-2 px-3 text-white/90 hover:bg-white/20 rounded-lg text-sm">User</a></li>
+          </ul>
+        </li>
+        <li><a href="sighnIn.html" class="block text-white font-bold text-base py-3 px-4 rounded-xl bg-white/30 border border-white/40 hover:bg-white/40 transition-all">Sign In</a></li>
+      </ul>
+      <div class="mt-8 pt-5 border-t border-white/30 flex flex-col gap-3">
+        <button class="mobile-action-btn flex items-center justify-center gap-3 py-3 rounded-full bg-white/15 backdrop-blur-sm border border-white/30 text-white font-medium hover:bg-white/30 transition-all" id="mobileThemeBtn">
+          <i class="fas fa-moon" id="mobileThemeIcon"></i>
+          <span id="mobileThemeLabel">Dark Mode</span>
+        </button>
+        <button class="mobile-action-btn flex items-center justify-center gap-3 py-3 rounded-full bg-white/15 backdrop-blur-sm border border-white/30 text-white font-medium hover:bg-white/30 transition-all" id="mobileRtlBtn">
+          <i class="fas fa-language"></i>
+          <span id="mobileRtlLabel">RTL Mode</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-1 mt-24">
+      
+      <!-- SECTION 1: HERO with FIXED BACKGROUND IMAGE (Parallax effect) -->
+      <section class="hero-fixed-bg relative py-28 md:py-36 px-4 flex items-center justify-center text-center overflow-hidden">
+        <!-- semi-transparent overlay for better readability -->
+        <div class="hero-overlay-dark absolute inset-0"></div>
+        <div class="relative z-10 max-w-4xl mx-auto">
+          <h1 class="text-5xl md:text-7xl font-black text-white drop-shadow-lg mb-6 animate-fade-in">Our Story</h1>
+          <p class="text-lg md:text-xl text-white/95 leading-relaxed font-medium backdrop-blur-sm bg-black/20 inline-block px-6 py-2 rounded-full md:rounded-2xl md:bg-transparent">
+            Founded in 2026, Scorza began with a simple mission: to blend timeless traditional ethics with modern aesthetic design.
+          </p>
+          <div class="mt-8 flex justify-center gap-3">
+            <span class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm text-white px-5 py-2 rounded-full text-sm font-semibold"><i class="fas fa-feather-alt"></i> Heritage</span>
+            <span class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm text-white px-5 py-2 rounded-full text-sm font-semibold"><i class="fas fa-globe"></i> Global vision</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 2: Mission & Vision -->
+      <section class="py-20 px-4 max-w-[1400px] mx-auto">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">Our Mission & Vision</h2>
+          <div class="w-20 h-1 bg-brand-primary mx-auto mt-4 rounded-full"></div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+          <div class="group relative p-8 rounded-3xl bg-white dark:bg-darkCard shadow-xl border border-gray-100 dark:border-gray-700 hover:shadow-2xl transition-all duration-300 overflow-hidden">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-brand-primary/5 rounded-full -translate-y-1/2 translate-x-1/2 group-hover:scale-150 transition-transform duration-500"></div>
+            <div class="relative z-10">
+              <div class="w-20 h-20 bg-brand-primary/15 rounded-2xl flex items-center justify-center mb-6 mx-auto md:mx-0">
+                <i class="fas fa-bullseye text-brand-primary text-3xl"></i>
+              </div>
+              <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-4 text-center md:text-left">Our Mission</h3>
+              <p class="text-gray-700 dark:text-gray-300 leading-relaxed text-center md:text-left">
+                To empower individuals through authentic, sustainable fashion that respects cultural heritage while embracing innovation. We strive to create timeless pieces that tell stories, reduce environmental impact, and uplift the communities we work with.
+              </p>
+              <div class="mt-6 flex items-center justify-center md:justify-start gap-2 text-brand-primary">
+                <span class="text-sm font-medium">Sustainable fashion for all</span>
+                <i class="fas fa-leaf text-sm"></i>
+              </div>
+            </div>
+          </div>
+          <div class="group relative p-8 rounded-3xl bg-white dark:bg-darkCard shadow-xl border border-gray-100 dark:border-gray-700 hover:shadow-2xl transition-all duration-300 overflow-hidden">
+            <div class="absolute bottom-0 left-0 w-32 h-32 bg-brand-primary/5 rounded-full translate-y-1/2 -translate-x-1/2 group-hover:scale-150 transition-transform duration-500"></div>
+            <div class="relative z-10">
+              <div class="w-20 h-20 bg-brand-primary/15 rounded-2xl flex items-center justify-center mb-6 mx-auto md:mx-0">
+                <i class="fas fa-eye text-brand-primary text-3xl"></i>
+              </div>
+              <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-4 text-center md:text-left">Our Vision</h3>
+              <p class="text-gray-700 dark:text-gray-300 leading-relaxed text-center md:text-left">
+                To become a global leader in ethical fashion, where every garment represents a commitment to quality, culture, and the planet. We envision a world where style and sustainability coexist seamlessly, inspiring generations to come.where style and sustainability coexist seamlessly, inspiring generations to come.
+              </p>
+              </p>
+              <div class="mt-6 flex items-center justify-center md:justify-start gap-2 text-brand-primary">
+                <span class="text-sm font-medium">Global impact, local heart</span>
+                <i class="fas fa-globe text-sm"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3: Values (Grid) -->
+      <section class="py-16 px-4 max-w-[1400px] mx-auto bg-gray-50 dark:bg-darkSurface rounded-[3rem] my-8">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl font-bold text-gray-800 dark:text-white">Our Core Values</h2>
+          <p class="text-gray-600 dark:text-gray-400 mt-2">What drives us every day</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="p-8 bg-white dark:bg-darkCard rounded-3xl shadow-sm border border-gray-100 dark:border-gray-700 text-center">
+            <div class="w-16 h-16 bg-brand-primary/10 text-brand-primary rounded-full flex items-center justify-center mx-auto mb-6 text-2xl animate-float-slow">
+              <i class="fas fa-leaf"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-4">Sustainability</h3>
+            <p class="text-gray-600 dark:text-gray-400">We source eco-friendly materials to ensure our fashion leaves a positive footprint.</p>
+          </div>
+          <div class="p-8 bg-white dark:bg-darkCard rounded-3xl shadow-sm border border-gray-100 dark:border-gray-700 text-center">
+            <div class="w-16 h-16 bg-brand-primary/10 text-brand-primary rounded-full flex items-center justify-center mx-auto mb-6 text-2xl animate-float-slow" style="animation-delay: 0.2s;">
+              <i class="fas fa-gem"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-4">Quality Craft</h3>
+            <p class="text-gray-600 dark:text-gray-400">Every stitch is handled with precision by artisans who have mastered their craft.</p>
+          </div>
+          <div class="p-8 bg-white dark:bg-darkCard rounded-3xl shadow-sm border border-gray-100 dark:border-gray-700 text-center">
+            <div class="w-16 h-16 bg-brand-primary/10 text-brand-primary rounded-full flex items-center justify-center mx-auto mb-6 text-2xl animate-float-slow" style="animation-delay: 0.4s;">
+              <i class="fas fa-handshake"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-4">Community</h3>
+            <p class="text-gray-600 dark:text-gray-400">We empower local communities by providing fair wages and safe working environments.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 4: Feature (Split Image/Text) -->
+      <section class="py-16 px-4 bg-brand-primary/5 dark:bg-brand-primary/10">
+        <div class="max-w-[1400px] mx-auto flex flex-col md:flex-row items-center gap-12">
+          <div class="w-full md:w-1/2">
+            <div class="aspect-video bg-gradient-to-br from-brand-primary/20 to-brand-light/20 rounded-3xl overflow-hidden shadow-lg flex items-center justify-center">
+              <img src="https://images.pexels.com/photos/5864476/pexels-photo-5864476.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Traditional Wear" class="w-full h-full object-cover">
+            </div>
+          </div>
+          <div class="w-full md:w-1/2">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-6">Redefining Traditional Wear</h2>
+            <p class="text-gray-700 dark:text-gray-300 mb-6 leading-relaxed">
+              Our designers travel across the globe to find inspiration in local cultures, bringing ethnic patterns into the 21st century. We don't just follow trends; we create pieces that last a lifetime.
+            </p>
+            <ul class="space-y-3">
+              <li class="flex items-center gap-3 text-gray-700 dark:text-gray-300"><i class="fas fa-check-circle text-brand-primary"></i> Hand-woven fabrics</li>
+              <li class="flex items-center gap-3 text-gray-700 dark:text-gray-300"><i class="fas fa-check-circle text-brand-primary"></i> Ethically sourced silk</li>
+              <li class="flex items-center gap-3 text-gray-700 dark:text-gray-300"><i class="fas fa-check-circle text-brand-primary"></i> Global shipping reached</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 5: Stats -->
+      <section class="py-20 px-4 text-center bg-gray-50 dark:bg-darkSurface">
+        <div class="max-w-[1400px] mx-auto grid grid-cols-2 lg:grid-cols-4 gap-8">
+          <div><div class="text-4xl md:text-5xl font-black text-brand-primary mb-2">12k+</div><div class="text-sm uppercase tracking-widest font-bold text-gray-600 dark:text-gray-400">Happy Clients</div></div>
+          <div><div class="text-4xl md:text-5xl font-black text-brand-primary mb-2">50+</div><div class="text-sm uppercase tracking-widest font-bold text-gray-600 dark:text-gray-400">Designers</div></div>
+          <div><div class="text-4xl md:text-5xl font-black text-brand-primary mb-2">15</div><div class="text-sm uppercase tracking-widest font-bold text-gray-600 dark:text-gray-400">Global Stores</div></div>
+          <div><div class="text-4xl md:text-5xl font-black text-brand-primary mb-2">100%</div><div class="text-sm uppercase tracking-widest font-bold text-gray-600 dark:text-gray-400">Sustainable</div></div>
+        </div>
+      </section>
+
+      <!-- Section 6: Team (unchanged) -->
+      <section class="py-16 px-4">
+        <div class="max-w-[1400px] mx-auto">
+          <div class="text-center mb-12"><h2 class="text-3xl font-bold text-gray-800 dark:text-white">The Creative Minds</h2><p class="text-gray-600 dark:text-gray-400 mt-2">Meet the talented people behind the Scorza brand.</p></div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="team-card group relative overflow-hidden rounded-3xl bg-white dark:bg-darkCard shadow-lg border border-gray-100 dark:border-gray-700 transition-all"><div class="relative overflow-hidden h-64 bg-gradient-to-br from-brand-primary/30 to-brand-primary/10"><img src="https://images.pexels.com/photos/3785097/pexels-photo-3785097.jpeg?auto=compress&cs=tinysrgb&w=400&h=500&fit=crop" alt="Alex Rivers" class="team-image w-full h-full object-cover object-top"></div><div class="p-5 text-center"><h4 class="text-xl font-bold text-gray-800 dark:text-white">Alex Rivers</h4><p class="text-brand-primary font-medium mt-1">Founder & CEO</p><p class="text-sm text-gray-600 dark:text-gray-400 mt-2">Visionary leader with 15+ years in fashion.</p><div class="flex justify-center gap-3 mt-4"><a href="#" class="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-brand-primary hover:text-white transition"><i class="fab fa-linkedin-in text-sm"></i></a></div></div></div>
+            <div class="team-card group relative overflow-hidden rounded-3xl bg-white dark:bg-darkCard shadow-lg border border-gray-100 dark:border-gray-700 transition-all"><div class="relative overflow-hidden h-64 bg-gradient-to-br from-brand-primary/30 to-brand-primary/10"><img src="https://images.pexels.com/photos/5875925/pexels-photo-5875925.jpeg?auto=compress&cs=tinysrgb&w=400&h=500&fit=crop" alt="Sarah Chen" class="team-image w-full h-full object-cover object-top"></div><div class="p-5 text-center"><h4 class="text-xl font-bold text-gray-800 dark:text-white">Sarah Chen</h4><p class="text-brand-primary font-medium mt-1">Lead Designer</p><p class="text-sm text-gray-600 dark:text-gray-400 mt-2">Award-winning designer, east-meets-west.</p><div class="flex justify-center gap-3 mt-4"><a href="#" class="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-brand-primary hover:text-white transition"><i class="fab fa-dribbble text-sm"></i></a></div></div></div>
+            <div class="team-card group relative overflow-hidden rounded-3xl bg-white dark:bg-darkCard shadow-lg border border-gray-100 dark:border-gray-700 transition-all"><div class="relative overflow-hidden h-64 bg-gradient-to-br from-brand-primary/30 to-brand-primary/10"><img src="https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=400&h=500&fit=crop" alt="Mark Sloan" class="team-image w-full h-full object-cover object-top"></div><div class="p-5 text-center"><h4 class="text-xl font-bold text-gray-800 dark:text-white">Mark Sloan</h4><p class="text-brand-primary font-medium mt-1">Marketing Head</p><p class="text-sm text-gray-600 dark:text-gray-400 mt-2">Creative strategist driving global presence.</p><div class="flex justify-center gap-3 mt-4"><a href="#" class="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-brand-primary hover:text-white transition"><i class="fab fa-instagram text-sm"></i></a></div></div></div>
+            <div class="team-card group relative overflow-hidden rounded-3xl bg-white dark:bg-darkCard shadow-lg border border-gray-100 dark:border-gray-700 transition-all"><div class="relative overflow-hidden h-64 bg-gradient-to-br from-brand-primary/30 to-brand-primary/10"><img src="https://images.pexels.com/photos/5905705/pexels-photo-5905705.jpeg?auto=compress&cs=tinysrgb&w=400&h=500&fit=crop" alt="Elena Kostic" class="team-image w-full h-full object-cover object-top"></div><div class="p-5 text-center"><h4 class="text-xl font-bold text-gray-800 dark:text-white">Elena Kostic</h4><p class="text-brand-primary font-medium mt-1">Production Manager</p><p class="text-sm text-gray-600 dark:text-gray-400 mt-2">Ensuring quality and ethical standards.</p><div class="flex justify-center gap-3 mt-4"><a href="#" class="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-brand-primary hover:text-white transition"><i class="fab fa-behance text-sm"></i></a></div></div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 7: CTA -->
+      <section class="py-20 px-4">
+        <div class="max-w-4xl mx-auto bg-brand-primary rounded-[2rem] p-10 md:p-16 text-center text-white shadow-2xl relative overflow-hidden">
+          <div class="relative z-10"><h2 class="text-3xl md:text-5xl font-black mb-6">Join Our Movement</h2><p class="text-white/90 text-lg mb-8">Stay updated with our latest collections and sustainability reports.</p><div class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto"><input type="email" placeholder="Enter your email" class="flex-1 px-6 py-4 rounded-full text-gray-900 outline-none focus:ring-2 focus:ring-white"><button class="bg-gray-900 text-white px-8 py-4 rounded-full font-bold hover:bg-black transition-all">Subscribe</button></div></div>
+          <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+          <div class="absolute bottom-0 left-0 w-32 h-32 bg-black/10 rounded-full translate-y-1/2 -translate-x-1/2"></div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer (unchanged) -->
+      <footer class="bg-footer-bg dark:bg-gray-900 text-white pt-12 pb-6">
+      <div class="max-w-6xl mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+          <div class="flex flex-col items-center lg:items-start text-center lg:text-left"><a href="index.html"
+              class="logo text-3xl font-extrabold text-brand-primary mb-3">Scorza</a>
+            <p class="text-footer-text dark:text-gray-400 leading-relaxed">Artisanal hot sauces crafted with fire, tradition, and wild fermentation since 2026.</p>
+            <div class="flex gap-3 mt-5"><a href="#"
+                class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-primary transition-all"><i
+                  class="fab fa-facebook-f"></i></a><a href="#"
+                class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-primary transition-all"><i
+                  class="fab fa-instagram"></i></a><a href="#"
+                class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-primary transition-all"><i
+                  class="fab fa-twitter"></i></a></div>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold mb-4 border-b-2 border-brand-primary/30 inline-block">Shop</h3>
+            <ul class="footer-links space-y-2">
+              <li><a href="#"><i class="fas fa-chevron-right text-[10px]"></i> Hot Sauces</a></li>
+              <li><a href="#"><i class="fas fa-chevron-right text-[10px]"></i> Fermented Blends</a></li>
+              <li><a href="#"><i class="fas fa-chevron-right text-[10px]"></i> Limited Batches</a></li>
+              <li><a href="#"><i class="fas fa-chevron-right text-[10px]"></i> Gift Sets</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold mb-4 border-b-2 border-brand-primary/30 inline-block">QuickLinks</h3>
+            <ul class="footer-links space-y-2">
+              <li><a href="about.html"><i class="fas fa-chevron-right text-[10px]"></i> About </a></li>
+              <li><a href="contact.html"><i class="fas fa-chevron-right text-[10px]"></i> contact</a></li>
+              <li><a href="faq.html"><i class="fas fa-chevron-right text-[10px]"></i> Faq</a></li>
+              <li><a href="pricing.html"><i class="fas fa-chevron-right text-[10px]"></i> Pricing</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold mb-4 border-b-2 border-brand-primary/30 inline-block">Sauce Collection</h3>
+            <ul class="footer-links space-y-2">
+              <li><a href="#"><i class="fas fa-chevron-right text-[10px]"></i> Smoked Inferno</a></li>
+              <li><a href="#"><i class="fas fa-chevron-right text-[10px]"></i>   Garlic Ember</a></li>
+              <li><a href="#"><i class="fas fa-chevron-right text-[10px]"></i> Mango Blaze</a></li>
+              <li><a href="#"><i class="fas fa-chevron-right text-[10px]"></i> Ghost Fire Reserve</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="text-center mt-12 pt-6 border-t border-white/10 text-footer-text dark:text-gray-500 text-sm">
+          <p>© 2026 Scorza — Artisanal Sauce Crafters. All rights reserved. | <a href="#"
+              class="text-brand-primary hover:underline">Privacy</a> | <a href="#"
+              class="text-brand-primary hover:underline">Terms</a></p>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // Theme, RTL, Mobile menu, Dropdowns logic (identical to original, kept for consistency)
+    const themeToggle = document.getElementById('themeToggle');
+    const mobileThemeBtn = document.getElementById('mobileThemeBtn');
+    const mobileThemeIcon = document.getElementById('mobileThemeIcon');
+    const mobileThemeLabel = document.getElementById('mobileThemeLabel');
+    function setThemeUI(isDark) { if(themeToggle) themeToggle.textContent = isDark ? '☀️' : '🌙'; if(mobileThemeIcon && mobileThemeLabel) { if(isDark) { mobileThemeIcon.className = 'fas fa-sun'; mobileThemeLabel.textContent = 'Light Mode'; } else { mobileThemeIcon.className = 'fas fa-moon'; mobileThemeLabel.textContent = 'Dark Mode'; } } }
+    function toggleTheme() { document.body.classList.toggle('dark'); const isDark = document.body.classList.contains('dark'); setThemeUI(isDark); localStorage.setItem('theme', isDark ? 'dark' : 'light'); }
+    if(themeToggle) themeToggle.addEventListener('click', toggleTheme);
+    if(mobileThemeBtn) mobileThemeBtn.addEventListener('click', toggleTheme);
+    const savedTheme = localStorage.getItem('theme');
+    if(savedTheme === 'dark') { document.body.classList.add('dark'); setThemeUI(true); } else { setThemeUI(false); }
+    const rtlDesktopBtn = document.getElementById('rtlToggleDesktop'); const rtlToggleTextSpan = document.getElementById('rtlToggleText'); const mobileRtlBtn = document.getElementById('mobileRtlBtn'); const mobileRtlLabel = document.getElementById('mobileRtlLabel');
+    function updateRTLButtonUI(isRTL) { if(rtlToggleTextSpan) rtlToggleTextSpan.textContent = isRTL ? 'LTR' : 'RTL'; if(mobileRtlLabel) mobileRtlLabel.textContent = isRTL ? 'LTR Mode' : 'RTL Mode'; }
+    function toggleRTL() { const html = document.documentElement; const currentDir = html.getAttribute('dir'); const newDir = currentDir === 'rtl' ? 'ltr' : 'rtl'; html.setAttribute('dir', newDir); localStorage.setItem('dir', newDir); updateRTLButtonUI(newDir === 'rtl'); const mobileMenu = document.getElementById('mobileNavMenu'); if(mobileMenu && mobileMenu.classList.contains('open')) { if(newDir === 'rtl') { mobileMenu.style.left = '0'; mobileMenu.style.right = 'auto'; } else { mobileMenu.style.right = '0'; mobileMenu.style.left = 'auto'; } } }
+    if(rtlDesktopBtn) rtlDesktopBtn.addEventListener('click', toggleRTL); if(mobileRtlBtn) mobileRtlBtn.addEventListener('click', toggleRTL);
+    const savedDir = localStorage.getItem('dir'); if(savedDir === 'rtl') { document.documentElement.setAttribute('dir', 'rtl'); updateRTLButtonUI(true); } else { document.documentElement.setAttribute('dir', 'ltr'); updateRTLButtonUI(false); }
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn'); const mobileNavMenu = document.getElementById('mobileNavMenu'); const closeMenuBtn = document.getElementById('closeMenuBtn'); const mobileOverlay = document.getElementById('mobileOverlay');
+    function openMobileMenu() { const isRtl = document.documentElement.getAttribute('dir') === 'rtl'; if(isRtl) { mobileNavMenu.style.left = '0'; mobileNavMenu.style.right = 'auto'; } else { mobileNavMenu.style.right = '0'; mobileNavMenu.style.left = 'auto'; } mobileNavMenu.classList.add('open'); mobileOverlay.style.display = 'block'; setTimeout(() => { mobileOverlay.style.opacity = '1'; }, 10); document.body.style.overflow = 'hidden'; }
+    function closeMobileMenu() { const isRtl = document.documentElement.getAttribute('dir') === 'rtl'; if(isRtl) { mobileNavMenu.style.left = '-100%'; } else { mobileNavMenu.style.right = '-100%'; } mobileNavMenu.classList.remove('open'); mobileOverlay.style.opacity = '0'; setTimeout(() => { mobileOverlay.style.display = 'none'; }, 250); document.body.style.overflow = ''; }
+    if(mobileMenuBtn) mobileMenuBtn.addEventListener('click', openMobileMenu); if(closeMenuBtn) closeMenuBtn.addEventListener('click', closeMobileMenu); if(mobileOverlay) mobileOverlay.addEventListener('click', closeMobileMenu);
+    const homeDropdown = document.getElementById('homeDropdown'); const dashboardDropdown = document.getElementById('dashboardDropdown');
+    function closeAllDropdowns(except = null) { if(homeDropdown && homeDropdown !== except) homeDropdown.classList.remove('active'); if(dashboardDropdown && dashboardDropdown !== except) dashboardDropdown.classList.remove('active'); }
+    if(homeDropdown) homeDropdown.querySelector('.dropdown-toggle')?.addEventListener('click', (e) => { e.preventDefault(); const isActive = homeDropdown.classList.contains('active'); closeAllDropdowns(homeDropdown); if(!isActive) homeDropdown.classList.add('active'); });
+    if(dashboardDropdown) dashboardDropdown.querySelector('.dropdown-toggle')?.addEventListener('click', (e) => { e.preventDefault(); const isActive = dashboardDropdown.classList.contains('active'); closeAllDropdowns(dashboardDropdown); if(!isActive) dashboardDropdown.classList.add('active'); });
+    document.addEventListener('click', (e) => { if(homeDropdown && !homeDropdown.contains(e.target)) homeDropdown.classList.remove('active'); if(dashboardDropdown && !dashboardDropdown.contains(e.target)) dashboardDropdown.classList.remove('active'); });
+    const mobileHomeDD = document.getElementById('mobileHomeDropdown'); const mobileDashDD = document.getElementById('mobileDashboardDropdown');
+    if(mobileHomeDD) mobileHomeDD.querySelector('.mobile-dropdown-toggle')?.addEventListener('click', (e) => { e.preventDefault(); mobileHomeDD.classList.toggle('active'); if(mobileDashDD) mobileDashDD.classList.remove('active'); });
+    if(mobileDashDD) mobileDashDD.querySelector('.mobile-dropdown-toggle')?.addEventListener('click', (e) => { e.preventDefault(); mobileDashDD.classList.toggle('active'); if(mobileHomeDD) mobileHomeDD.classList.remove('active'); });
+  </script>
+</body>
+</html>

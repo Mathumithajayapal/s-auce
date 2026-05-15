@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Scorza | Sauce Co. Dashboard</title>
+  <!-- Tailwind CSS v3 + Font Awesome + Google Fonts -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              primary: '#e69d0b',
+              light: '#f0b341',
+              dark: '#d48a0a',
+            },
+            darkBg: '#0a0a0a',
+            darkCard: '#1f1f1f',
+            sidebar: {
+              dark: '#111111',
+              light: '#f8f9fc',
+            },
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+          animation: {
+            'fade-in-up': 'fadeInUp 0.4s ease-out',
+            'float-slow': 'float 6s ease-in-out infinite',
+          },
+          keyframes: {
+            fadeInUp: {
+              '0%': { opacity: '0', transform: 'translateY(15px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
+            float: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-8px)' },
+            },
+          },
+        },
+      },
+    }
+  </script>
+  <style>
+    body { transition: background-color 0.2s ease, color 0.2s ease; }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      transition: all 0.3s ease;
+      border: 1px solid rgba(230, 157, 11, 0.15);
+    }
+    .dark .glass-card {
+      background: rgba(22, 22, 32, 0.94);
+      border: 1px solid rgba(230, 157, 11, 0.2);
+    }
+    .brand-gradient-bg {
+      background: linear-gradient(125deg, #e69d0b 0%, #f0b341 100%);
+      background-size: 200% auto;
+      transition: 0.3s;
+    }
+    .brand-gradient-bg:hover { background-position: right center; }
+    .sidebar-link {
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .sidebar-link.active {
+      background: linear-gradient(90deg, rgba(230,157,11,0.15) 0%, rgba(230,157,11,0.05) 100%);
+      border-left: 3px solid #e69d0b;
+      color: #e69d0b;
+    }
+    .dark .sidebar-link.active {
+      background: linear-gradient(90deg, rgba(230,157,11,0.25) 0%, rgba(230,157,11,0.05) 100%);
+    }
+    .sidebar-link:hover:not(.active) {
+      background: rgba(230, 157, 11, 0.08);
+      transform: translateX(4px);
+    }
+    [dir="rtl"] .sidebar-link:hover:not(.active) { transform: translateX(-4px); }
+    [dir="rtl"] .sidebar-link.active {
+      border-left: none;
+      border-right: 3px solid #e69d0b;
+    }
+    .sidebar-scroll::-webkit-scrollbar { width: 4px; }
+    .sidebar-scroll::-webkit-scrollbar-track { background: transparent; }
+    .sidebar-scroll::-webkit-scrollbar-thumb { background: #e69d0b; border-radius: 10px; }
+    [dir="rtl"] .sidebar-link { text-align: right; }
+    .mobile-sidebar-open { overflow: hidden; }
+    @media (max-width: 1023px) {
+      .sidebar-desktop { transform: translateX(-100%); transition: transform 0.3s ease; }
+      [dir="rtl"] .sidebar-desktop { transform: translateX(100%); }
+      .sidebar-desktop.open { transform: translateX(0); }
+    }
+    .content-panel { animation: fadeInUp 0.4s ease-out; }
+    .dashboard-card {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .dashboard-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.15);
+    }
+    .dark body, body.dark { background-color: #0a0a0a !important; color: #ffffff !important; }
+    .dark .bg-gray-50, body.dark .bg-gray-50 { background-color: #0d0d0d !important; }
+    .dark .text-gray-500, body.dark .text-gray-500, 
+    .dark .text-gray-600, body.dark .text-gray-600,
+    .dark .text-gray-700, body.dark .text-gray-700,
+    .dark .text-gray-800, body.dark .text-gray-800,
+    .dark .text-gray-900, body.dark .text-gray-900 { color: #ffffff !important; }
+    .dark .text-brand-primary, body.dark .text-brand-primary { color: #f0b341 !important; }
+    .dark .text-green-600, body.dark .text-green-600 { color: #86efac !important; }
+    .dark .text-blue-600, body.dark .text-blue-600 { color: #93c5fd !important; }
+    .dark .text-red-600, body.dark .text-red-600 { color: #fca5a5 !important; }
+    .dark .text-gray-400, body.dark .text-gray-400 { color: #d1d5db !important; }
+    .dark .border-gray-200, body.dark .border-gray-200 { border-color: #2a2a2a !important; }
+    .dark .bg-gray-100, body.dark .bg-gray-100 { background-color: #1f1f1f !important; }
+    .dark .bg-gray-50, body.dark .bg-gray-50 { background-color: #1a1a1a !important; }
+    .dark .glass-card p, .dark .glass-card span, .dark .glass-card h2, .dark .glass-card h3 { color: #ffffff !important; }
+    .dark * { color: #ffffff; }
+    .dark .text-brand-primary, .dark i, .dark .fa, .dark .fas { color: inherit; }
+    .dark .text-brand-primary { color: #f0b341 !important; }
+    .dark .sidebar-link { color: #ffffff !important; }
+    .dark .sidebar-link.active { color: #f0b341 !important; }
+    img { object-fit: cover; width: 100%; height: 100%; }
+    /* Scorza Logo Style */
+.scorza-logo {
+  font-size: 1.5rem; /* same as text-xl */
+  font-weight: 800; /* extra bold */
+  letter-spacing: -0.03em;
+  color: #e69d0b;
+  font-family: 'Inter', system-ui, sans-serif;
+  line-height: 1;
+  transition: all 0.3s ease;
+}
+
+.scorza-logo:hover {
+  color: #f0b341;
+}
+
+/* Desktop size */
+@media (min-width: 768px) {
+  .scorza-logo {
+    font-size: 1.875rem; /* same as md:text-2xl */
+  }
+}
+  </style>
+</head>
+<body class="bg-gray-50 dark:bg-darkBg text-gray-900 dark:text-white font-sans antialiased overflow-x-hidden">
+
+  <!-- Animated Background -->
+  <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+    <div class="absolute top-0 -left-40 w-96 h-96 bg-brand-primary/8 rounded-full blur-3xl animate-float-slow"></div>
+    <div class="absolute bottom-0 right-0 w-[30rem] h-[30rem] bg-brand-light/8 rounded-full blur-3xl animate-float-slow" style="animation-delay: -2s;"></div>
+  </div>
+
+  <!-- Top Bar -->
+  <header class="fixed top-0 left-0 right-0 z-50 py-3 px-0 bg-white/80 dark:bg-[#0a0a0a]/90 backdrop-blur-md border-b border-gray-200/50">
+    <div class="w-full flex items-center justify-between">
+      <div class="flex items-center" style="margin-left: 10px;">
+        <button id="mobileSidebarToggle" class="lg:hidden w-9 h-9 rounded-full bg-gray-100 dark:bg-darkCard/80 mr-3">
+          <i class="fas fa-bars text-lg"></i>
+        </button>
+       <div class="flex items-center gap-2">
+  <a href="index.html" class="scorza-logo">Scorza</a>
+</div>
+      </div>
+      <div class="flex items-center gap-2 md:gap-3" style="margin-right: 16px;">
+        <button id="rtlToggleBtn" class="px-3 py-1.5 rounded-full text-sm font-semibold bg-gray-100 dark:bg-darkCard/80">RTL</button>
+        <button id="themeToggleBtn" class="w-9 h-9 rounded-full bg-gray-100 dark:bg-darkCard/80">🌙</button>
+        <div class="relative">
+          <button id="userMenuBtn" class="flex items-center gap-2">
+            <div class="w-9 h-9 rounded-full brand-gradient-bg flex items-center justify-center text-white font-bold">AM</div>
+          </button>
+          <div id="userDropdown" class="absolute right-0 mt-2 w-48 bg-white dark:bg-darkCard rounded-xl shadow-xl opacity-0 invisible transition-all z-50">
+            <div class="py-2"><div class="px-4 py-2 border-b"><p class="text-sm font-semibold">Alex Morgan</p><p class="text-xs text-gray-500">alex@scorza.com</p></div><a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100">Profile</a><a href="#" class="block px-4 py-2 text-sm text-red-600">Sign Out</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div id="sidebarOverlay" class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden"></div>
+
+  <div class="flex pt-16">
+    <!-- Sidebar Menu -->
+    <aside id="sidebar" class="sidebar-desktop fixed lg:sticky top-16 left-0 h-[calc(100vh-4rem)] w-64 bg-white dark:bg-sidebar-dark border-r z-40 flex flex-col overflow-y-auto">
+      <nav class="flex-1 py-4 px-3 space-y-1">
+        <a data-page="dashboard" class="sidebar-link active flex items-center gap-3 px-4 py-3 rounded-lg font-medium"><i class="fas fa-tachometer-alt w-5 text-brand-primary"></i><span>Flavor Dashboard</span></a>
+        <a data-page="orders" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg font-medium"><i class="fas fa-shopping-bag w-5 text-brand-primary"></i><span>My Sauce Orders</span><span class="ml-auto text-xs bg-brand-primary/20 px-2 rounded-full">24</span></a>
+        <a data-page="wishlist" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg font-medium"><i class="fas fa-heart w-5 text-brand-primary"></i><span>Sauce Wishlist</span><span class="ml-auto text-xs bg-brand-primary/20 px-2 rounded-full">8</span></a>
+        <a data-page="addresses" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg font-medium"><i class="fas fa-map-marker-alt w-5 text-brand-primary"></i><span>Addresses</span></a>
+        <a data-page="payments" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg font-medium"><i class="fas fa-credit-card w-5 text-brand-primary"></i><span>Payment Methods</span></a>
+        <a data-page="rewards" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg font-medium"><i class="fas fa-gem w-5 text-brand-primary"></i><span>Heat Rewards</span></a>
+        <a data-page="settings" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg font-medium"><i class="fas fa-cog w-5 text-brand-primary"></i><span>Settings</span></a>
+      </nav>
+      <div class="p-4 border-t"><a href="#" class="flex items-center gap-3 text-red-600"><i class="fas fa-sign-out-alt"></i><span>Sign Out</span></a></div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 pt-6 pb-12 px-4 md:px-8 max-w-full">
+      
+      <!-- DASHBOARD - SAUCE COMPANY THEME WITH 3 SECTIONS & IMAGES -->
+      <div id="panel-dashboard" class="content-panel">
+        <div class="mb-8">
+          <h1 class="text-2xl md:text-3xl font-bold">Welcome back, <span class="text-brand-primary">Alex!</span> 🌶️</h1>
+          <p class="text-gray-500 mt-1">Your spicy journey — track orders, discover new heat levels, and manage your sauce collection.</p>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+          <div class="glass-card rounded-2xl p-5"><div class="flex justify-between"><div><p class="text-gray-500 text-sm">Total Orders</p><p class="text-3xl font-bold">24</p><p class="text-green-500 text-xs">+12%</p></div><div class="w-12 h-12 bg-brand-primary/15 rounded-full flex items-center justify-center"><i class="fas fa-shopping-bag text-brand-primary text-xl"></i></div></div></div>
+          <div class="glass-card rounded-2xl p-5"><div class="flex justify-between"><div><p class="text-gray-500 text-sm">Bottles Collected</p><p class="text-3xl font-bold">156</p><p class="text-brand-primary text-xs">+8 new</p></div><div class="w-12 h-12 bg-brand-primary/15 rounded-full flex items-center justify-center"><i class="fas fa-wine-bottle text-brand-primary text-xl"></i></div></div></div>
+          <div class="glass-card rounded-2xl p-5"><div class="flex justify-between"><div><p class="text-gray-500 text-sm">Total Spent</p><p class="text-3xl font-bold">$1,284</p></div><div class="w-12 h-12 bg-brand-primary/15 rounded-full flex items-center justify-center"><i class="fas fa-dollar-sign text-brand-primary text-xl"></i></div></div></div>
+          <div class="glass-card rounded-2xl p-5"><div class="flex justify-between"><div><p class="text-gray-500 text-sm">Heat Points</p><p class="text-3xl font-bold text-brand-primary">2,450</p></div><div class="w-12 h-12 bg-brand-primary/15 rounded-full flex items-center justify-center"><i class="fas fa-fire text-brand-primary text-xl"></i></div></div></div>
+        </div>
+
+        <!-- SECTION 1: Trending Hot Sauces (Image Grid) -->
+        <div class="glass-card rounded-2xl p-6 dashboard-card mb-8">
+          <div class="flex justify-between items-center mb-5"><h2 class="text-xl font-bold">🔥 Trending Hot Sauces</h2><a href="#" class="text-sm text-brand-primary">Shop all →</a></div>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="rounded-xl overflow-hidden bg-gray-50 dark:bg-gray-800/50 group cursor-pointer transition hover:scale-[1.02]"><div class="aspect-square overflow-hidden"><img src="images/saouce (1).jpg" alt="Ghost Pepper Sauce" class="w-full h-full object-cover group-hover:scale-110 transition duration-500"></div><div class="p-3"><p class="font-semibold">Ghost Pepper Blaze</p><p class="text-sm text-brand-primary">$14.99</p></div></div>
+            <div class="rounded-xl overflow-hidden bg-gray-50 dark:bg-gray-800/50 group cursor-pointer"><div class="aspect-square overflow-hidden"><img src="images/saouce (2).jpg" alt="Smoked Chipotle" class="w-full h-full object-cover group-hover:scale-110 transition duration-500"></div><div class="p-3"><p class="font-semibold">Smoked Chipotle</p><p class="text-sm text-brand-primary">$12.99</p></div></div>
+            <div class="rounded-xl overflow-hidden bg-gray-50 dark:bg-gray-800/50 group cursor-pointer"><div class="aspect-square overflow-hidden"><img src="images/saouce (3).jpg" alt="Mango Habanero" class="w-full h-full object-cover group-hover:scale-110 transition duration-500"></div><div class="p-3"><p class="font-semibold">Mango Habanero</p><p class="text-sm text-brand-primary">$13.49</p></div></div>
+            <div class="rounded-xl overflow-hidden bg-gray-50 dark:bg-gray-800/50 group cursor-pointer"><div class="aspect-square overflow-hidden"><img src="images/saouce (4).jpg" alt="Garlic Reaper" class="w-full h-full object-cover group-hover:scale-110 transition duration-500"></div><div class="p-3"><p class="font-semibold">Garlic Reaper</p><p class="text-sm text-brand-primary">$16.99</p></div></div>
+          </div>
+        </div>
+
+        <!-- SECTION 2: Recent Activity + Sauce Club -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+          <div class="glass-card rounded-2xl p-6 dashboard-card">
+            <h2 class="text-xl font-bold mb-4">📦 Recent Sauce Activity</h2>
+            <div class="space-y-3">
+              <div class="flex items-center gap-3 p-3 rounded-xl bg-gray-50 dark:bg-gray-800/50"><div class="w-10 h-10 rounded-full overflow-hidden"><img src="images/saouce (5).jpg" class="w-full h-full object-cover"></div><div><p class="text-sm">Added <span class="font-semibold">Truffle Infused Hot Sauce</span> to cart</p><p class="text-xs text-gray-400">2 hours ago</p></div></div>
+              <div class="flex items-center gap-3 p-3 rounded-xl bg-gray-50 dark:bg-gray-800/50"><div class="w-10 h-10 rounded-full overflow-hidden"><img src="images/saouce (6).jpg" class="w-full h-full object-cover"></div><div><p class="text-sm">Order <span class="font-semibold">#SCZ-2287</span> (3 sauces) out for delivery</p><p class="text-xs text-gray-400">Yesterday</p></div></div>
+              <div class="flex items-center gap-3 p-3 rounded-xl bg-gray-50 dark:bg-gray-800/50"><div class="w-10 h-10 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center"><i class="fas fa-fire text-brand-primary text-lg"></i></div><div><p class="text-sm">Earned <span class="font-semibold">+120 Heat Points</span> from sauce club purchase</p><p class="text-xs text-gray-400">Dec 14</p></div></div>
+            </div>
+          </div>
+          <div class="glass-card rounded-2xl p-6 dashboard-card">
+            <h2 class="text-xl font-bold mb-4">🌶️ Sauce of the Month Club</h2>
+            <div class="rounded-2xl overflow-hidden mb-4 h-40"><img src="images/saouce (7).jpg" class="w-full h-full object-cover"></div>
+            <p class="text-sm mb-2">December box: "Smoky Serrano & Honey Habanero"</p>
+            <button class="w-full py-2 bg-brand-primary text-white rounded-lg font-semibold">Upgrade to Monthly Box →</button>
+          </div>
+        </div>
+
+        <!-- SECTION 3: Personalized Sauce Picks (Image based) -->
+        <div class="glass-card rounded-2xl p-6 dashboard-card">
+          <div class="flex justify-between items-center mb-5"><h2 class="text-xl font-bold">🎯 Picks For Your Palate</h2><a href="#" class="text-sm text-brand-primary">See all →</a></div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div class="flex items-center gap-3 p-3 rounded-xl bg-gray-50 dark:bg-gray-800/50"><div class="w-16 h-16 rounded-lg overflow-hidden"><img src="images/saouce (8).jpg" class="w-full h-full object-cover"></div><div><p class="font-semibold">Roasted Garlic Sriracha</p><p class="text-sm text-brand-primary">$11.99</p><button class="text-xs text-brand-primary mt-1">Add →</button></div></div>
+            <div class="flex items-center gap-3 p-3 rounded-xl bg-gray-50 dark:bg-gray-800/50"><div class="w-16 h-16 rounded-lg overflow-hidden"><img src="images/saouce (9).jpg" class="w-full h-full object-cover"></div><div><p class="font-semibold">Carolina Reaper Reserve</p><p class="text-sm text-brand-primary">$19.99</p><button class="text-xs text-brand-primary mt-1">Add →</button></div></div>
+            <div class="flex items-center gap-3 p-3 rounded-xl bg-gray-50 dark:bg-gray-800/50"><div class="w-16 h-16 rounded-lg overflow-hidden"><img src="images/saouce (10).jpg" class="w-full h-full object-cover"></div><div><p class="font-semibold">Green Jalapeño Lime</p><p class="text-sm text-brand-primary">$9.99</p><button class="text-xs text-brand-primary mt-1">Add →</button></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MY ORDERS PANEL - SAUCE COMPANY -->
+      <div id="panel-orders" class="content-panel hidden">
+        <div class="mb-6"><h1 class="text-2xl font-bold">My Sauce Orders</h1><p class="text-gray-500">Track your hot sauce deliveries</p></div>
+        <div class="space-y-4">
+          <div class="glass-card rounded-2xl p-5"><div class="flex flex-wrap justify-between items-start border-b pb-3 mb-3"><div><span class="text-sm font-semibold bg-brand-primary/10 px-2 py-0.5 rounded-full">Order #SCZ-2341</span><p class="text-xs text-gray-400">Dec 12, 2025</p></div><span class="text-green-600 text-sm bg-green-100 px-3 py-1 rounded-full">Delivered</span></div><div class="flex gap-4"><div class="w-20 h-20 rounded-xl overflow-hidden"><img src="images/saouce (11).jpg" class="w-full h-full object-cover"></div><div><h3 class="font-bold">Hot Sauce Trio Pack</h3><p class="text-sm text-gray-500">Ghost, Chipotle, Habanero</p><div class="font-semibold">$42.99</div><button class="mt-2 text-sm bg-brand-primary text-white px-4 py-1 rounded-lg">Reorder</button></div></div></div>
+          <div class="glass-card rounded-2xl p-5"><div class="flex flex-wrap justify-between items-start border-b pb-3 mb-3"><div><span class="text-sm font-semibold bg-brand-primary/10 px-2 py-0.5 rounded-full">Order #SCZ-2287</span><p class="text-xs text-gray-400">Nov 28, 2025</p></div><span class="text-blue-600 text-sm bg-blue-100 px-3 py-1 rounded-full">In Transit</span></div><div class="flex gap-4"><div class="w-20 h-20 rounded-xl overflow-hidden"><img src="images/saouce (12).jpg" class="w-full h-full object-cover"></div><div><h3 class="font-bold">Smoked Chipotle Reserve</h3><p class="text-sm text-gray-500">Limited batch</p><div class="font-semibold">$16.99</div><button class="mt-2 text-sm bg-brand-primary text-white px-4 py-1 rounded-lg">Track Order</button></div></div></div>
+          <div class="glass-card rounded-2xl p-5"><div class="flex flex-wrap justify-between items-start border-b pb-3 mb-3"><div><span class="text-sm font-semibold bg-brand-primary/10 px-2 py-0.5 rounded-full">Order #SCZ-2405</span><p class="text-xs text-gray-400">Dec 10, 2025</p></div><span class="text-purple-600 text-sm bg-purple-100 px-3 py-1 rounded-full">Processing</span></div><div class="flex gap-4"><div class="w-20 h-20 rounded-xl overflow-hidden"><img src="images/saouce (13).jpg" class="w-full h-full object-cover"></div><div><h3 class="font-bold">Carolina Reaper Puree</h3><p class="text-sm text-gray-500">Extra hot</p><div class="font-semibold">$22.99</div><button class="mt-2 text-sm border border-gray-300 rounded-lg px-4 py-1">Cancel</button></div></div></div>
+        </div>
+      </div>
+
+      <!-- WISHLIST PANEL - FULL SAUCE IMAGES (NO ICONS) -->
+      <div id="panel-wishlist" class="content-panel hidden">
+        <div class="mb-6 flex justify-between items-center"><div><h1 class="text-2xl font-bold">My Sauce Wishlist 🔥</h1><p class="text-gray-500">Save your favorite hot sauces for later</p></div><button class="px-4 py-2 text-sm rounded-lg bg-brand-primary/10 text-brand-primary">Move all to cart</button></div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div class="glass-card rounded-2xl overflow-hidden hover:shadow-xl"><div class="relative h-56 w-full"><img src="images/saouce (14).jpg" alt="Truffle Hot Sauce" class="w-full h-full object-cover"><button class="absolute top-3 right-3 bg-white/90 dark:bg-gray-800/90 w-8 h-8 rounded-full flex items-center justify-center text-red-500 shadow-md"><i class="fas fa-heart"></i></button></div><div class="p-4"><h3 class="font-bold text-lg">Black Truffle Hot Sauce</h3><div class="flex items-baseline gap-2 mt-1"><span class="text-xl font-bold text-brand-primary">$24.99</span><span class="text-sm text-gray-400 line-through">$34.99</span><span class="text-xs bg-green-100 text-green-700 px-1.5 rounded">-29%</span></div><p class="text-xs text-gray-500 mt-1">Limited edition | In stock</p><div class="flex gap-2 mt-3"><button class="flex-1 bg-brand-primary text-white py-2 rounded-lg text-sm">Add to Cart</button><button class="w-10 h-10 rounded-lg border border-gray-300 flex items-center justify-center"><i class="far fa-trash-alt"></i></button></div></div></div>
+          <div class="glass-card rounded-2xl overflow-hidden"><div class="relative h-56 w-full"><img src="images/saouce (15).jpg" alt="Ghost Pepper Sauce" class="w-full h-full object-cover"><button class="absolute top-3 right-3 bg-white/90 w-8 h-8 rounded-full flex items-center justify-center text-red-500"><i class="fas fa-heart"></i></button></div><div class="p-4"><h3 class="font-bold">Ghost Pepper XXX</h3><div class="flex items-baseline gap-2"><span class="text-xl font-bold text-brand-primary">$19.99</span><span class="text-sm text-gray-400">Best seller</span></div><p class="text-xs text-gray-500">Only 5 left</p><div class="flex gap-2 mt-3"><button class="flex-1 bg-brand-primary text-white py-2 rounded-lg text-sm">Add to Cart</button><button class="w-10 h-10 rounded-lg border border-gray-300"><i class="far fa-trash-alt"></i></button></div></div></div>
+          <div class="glass-card rounded-2xl overflow-hidden"><div class="relative h-56 w-full"><img src="images/saouce (1).jpg" alt="Mango Habanero" class="w-full h-full object-cover"><button class="absolute top-3 right-3 bg-white/90 w-8 h-8 rounded-full flex items-center justify-center text-red-500"><i class="fas fa-heart"></i></button></div><div class="p-4"><h3 class="font-bold">Mango Habanero Glaze</h3><div><span class="text-xl font-bold text-brand-primary">$13.99</span></div><p class="text-xs text-gray-500">Sweet & spicy blend</p><div class="flex gap-2 mt-3"><button class="flex-1 bg-brand-primary text-white py-2 rounded-lg text-sm">Add to Cart</button><button class="w-10 h-10 rounded-lg border border-gray-300"><i class="far fa-trash-alt"></i></button></div></div></div>
+          <div class="glass-card rounded-2xl overflow-hidden"><div class="relative h-56 w-full"><img src="images/saouce (2).jpg" alt="Carolina Reaper" class="w-full h-full object-cover"><button class="absolute top-3 right-3 bg-white/90 w-8 h-8 rounded-full flex items-center justify-center text-red-500"><i class="fas fa-heart"></i></button></div><div class="p-4"><h3 class="font-bold">Carolina Reaper Puree</h3><div><span class="text-xl font-bold text-brand-primary">$22.99</span><span class="text-xs text-gray-400 ml-2">Ultra hot</span></div><p class="text-xs text-gray-500">Warning: extreme heat</p><div class="flex gap-2 mt-3"><button class="flex-1 bg-brand-primary text-white py-2 rounded-lg text-sm">Pre-order</button><button class="w-10 h-10 rounded-lg border border-gray-300"><i class="far fa-trash-alt"></i></button></div></div></div>
+        </div>
+        <div class="mt-8 text-center"><p class="text-gray-400 text-sm">Discover more spicy sauces → <a href="#" class="text-brand-primary font-semibold">Browse Recommendations</a></p></div>
+      </div>
+
+      <!-- Other Panels -->
+      <div id="panel-addresses" class="content-panel hidden"><div class="glass-card rounded-xl p-5"><i class="fas fa-home text-brand-primary mb-2"></i><p class="font-semibold">Home Address</p><p>Alex Morgan, 123 Main Street, NY 10001</p></div></div>
+      <div id="panel-payments" class="content-panel hidden"><div class="glass-card rounded-xl p-5"><div class="flex items-center gap-4"><i class="fab fa-cc-visa text-4xl text-blue-600"></i><div><p class="font-semibold">Visa ending in 4242</p></div></div></div></div>
+      <div id="panel-rewards" class="content-panel hidden"><div class="glass-card rounded-xl p-6 text-center"><p class="text-4xl font-bold text-brand-primary">2,450</p><p class="text-gray-500">Heat Reward Points</p><div class="mt-3 text-sm">🔥 490 points to Gold tier</div></div></div>
+      <div id="panel-settings" class="content-panel hidden"><div class="glass-card rounded-xl p-6"><input type="text" value="Alex Morgan" class="w-full px-4 py-2 rounded-lg border mb-3"><button class="px-6 py-2 bg-brand-primary text-white rounded-lg">Save Changes</button></div></div>
+    </main>
+  </div>
+
+  <script>
+    const themeBtn = document.getElementById('themeToggleBtn');
+    themeBtn?.addEventListener('click', () => { document.body.classList.toggle('dark'); localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light'); themeBtn.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙'; });
+    if (localStorage.getItem('theme') === 'dark') { document.body.classList.add('dark'); themeBtn.textContent = '☀️'; }
+    const rtlBtn = document.getElementById('rtlToggleBtn');
+    rtlBtn?.addEventListener('click', () => { const html = document.documentElement; const newDir = html.getAttribute('dir') === 'rtl' ? 'ltr' : 'rtl'; html.setAttribute('dir', newDir); localStorage.setItem('dir', newDir); rtlBtn.textContent = newDir === 'rtl' ? 'LTR' : 'RTL'; });
+    if (localStorage.getItem('dir') === 'rtl') document.documentElement.setAttribute('dir', 'rtl');
+    const userBtn = document.getElementById('userMenuBtn'), userDrop = document.getElementById('userDropdown');
+    userBtn?.addEventListener('click', (e) => { e.stopPropagation(); userDrop.classList.toggle('opacity-100'); userDrop.classList.toggle('visible'); });
+    document.addEventListener('click', () => { userDrop?.classList.remove('opacity-100', 'visible'); });
+    const mobileToggle = document.getElementById('mobileSidebarToggle'), sidebar = document.getElementById('sidebar'), overlay = document.getElementById('sidebarOverlay');
+    mobileToggle?.addEventListener('click', () => { sidebar.classList.add('open'); overlay.classList.remove('hidden'); });
+    overlay?.addEventListener('click', () => { sidebar.classList.remove('open'); overlay.classList.add('hidden'); });
+    const links = document.querySelectorAll('.sidebar-link'), panels = { dashboard: document.getElementById('panel-dashboard'), orders: document.getElementById('panel-orders'), wishlist: document.getElementById('panel-wishlist'), addresses: document.getElementById('panel-addresses'), payments: document.getElementById('panel-payments'), rewards: document.getElementById('panel-rewards'), settings: document.getElementById('panel-settings'), help: document.getElementById('panel-help') };
+    function showPanel(id) { Object.values(panels).forEach(p => p?.classList.add('hidden')); if (panels[id]) panels[id].classList.remove('hidden'); links.forEach(l => l.classList.remove('active')); document.querySelector(`[data-page="${id}"]`)?.classList.add('active'); if (window.innerWidth < 1024) { sidebar.classList.remove('open'); overlay.classList.add('hidden'); } }
+    links.forEach(link => link.addEventListener('click', (e) => { e.preventDefault(); const page = link.getAttribute('data-page'); if (page) showPanel(page); }));
+  </script>
+</body>
+</html>

@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Recipes | Scorza - Traditional Sauce Masterclass</title>
+  <link rel="icon" type="image/jpeg" href="images/growwpark_logo.jpg">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              primary: '#e69d0b',
+              light: '#f0b341',
+              dark: '#d48a0a',
+            },
+            footer: {
+              bg: '#2c1810',
+              text: '#d4c5b8',
+            },
+            darkBg: '#121212',
+            darkCard: '#1e1e2a',
+            darkSurface: '#0f0f14',
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+          animation: {
+            'fade-in': 'fadeIn 0.2s ease-out',
+            'slide-down': 'slideDown 0.2s ease-out',
+            'float-slow': 'float 6s ease-in-out infinite',
+          },
+          keyframes: {
+            fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
+            slideDown: { '0%': { opacity: '0', transform: 'translateY(-8px)' }, '100%': { opacity: '1', transform: 'translateY(4px)' } },
+            float: { '0%, 100%': { transform: 'translateY(0px)' }, '50%': { transform: 'translateY(-10px)' } },
+          },
+        },
+      },
+    }
+  </script>
+  <style>
+    /* EXACT STYLES FROM ABOUT.HTML + ADDITIONAL */
+    .dropdown-menu { transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease; }
+    .dropdown.active .dropdown-menu { opacity: 1 !important; visibility: visible !important; transform: translateX(-50%) translateY(6px) !important; }
+    [dir="rtl"] .dropdown.active .dropdown-menu { transform: translateX(50%) translateY(6px) !important; }
+    .mobile-dropdown-menu { max-height: 0; overflow: hidden; transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1); }
+    .mobile-dropdown.active .mobile-dropdown-menu { max-height: 380px; }
+    .mobile-nav-menu { transition: right 0.35s ease; }
+    [dir="rtl"] .mobile-nav-menu { right: auto; left: -100%; transition: left 0.35s ease; }
+    [dir="rtl"] .mobile-nav-menu.open { left: 0 !important; right: auto !important; }
+    .mobile-nav-menu.open { right: 0 !important; }
+    .mobile-overlay { transition: opacity 0.25s ease; }
+    .footer-links a { transition: all 0.25s ease; display: inline-flex; align-items: center; gap: 6px; }
+    .footer-links a:hover { transform: translateX(5px); color: #e69d0b; }
+    [dir="rtl"] .footer-links a:hover { transform: translateX(-5px); }
+    body { transition: background-color 0.2s ease, color 0.2s ease; background-color: #ffffff; color: #1a1a2e; }
+    body.dark { background-color: #121212; color: #e0e0e0; }
+@media (max-width: 1024px) {
+  .desktop-menu {
+    display: none !important;
+  }
+
+  .mobile-menu-btn {
+    display: flex !important;
+  }
+
+  /* Hide desktop controls on mobile */
+  .desktop-only-control {
+    display: none !important;
+  }
+}    @media (min-width: 1025px) { .mobile-menu-btn { display: none !important; } .desktop-menu { display: flex !important; } }
+    .nav-link { transition: all 0.2s; }
+    .mobile-nav-links a.active { background: rgba(255,255,255,0.25); border-left: 3px solid white; font-weight: 600; }
+    [dir="rtl"] .mobile-nav-links a.active { border-left: none; border-right: 3px solid white; }
+    * { transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform; transition-duration: 0.15s; }
+    .dark .bg-gray-50 { background-color: #0a0a0f !important; }
+    .dark .bg-white { background-color: #1e1e2a !important; }
+    body.dark .text-gray-600, body.dark .text-gray-700, body.dark .text-gray-800, body.dark .text-gray-900 { color: #f1f5f9 !important; }
+    
+    /* Specific Recipe Page Styling */
+    .recipe-card:hover { transform: translateY(-8px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); }
+    
+    /* Additional Section Card Hover */
+    .section-card { transition: all 0.3s ease; }
+    .section-card:hover { transform: translateY(-5px); }
+    
+    /* Featured Sauce Card with Background Image */
+    .sauce-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 1rem;
+      min-height: 220px;
+      display: flex;
+      align-items: flex-end;
+      transition: all 0.3s ease;
+    }
+    .sauce-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.2) 100%);
+      z-index: 1;
+      border-radius: 1rem;
+    }
+    .sauce-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 30px -12px rgba(0,0,0,0.3);
+    }
+    .sauce-card .card-content {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      padding: 1.5rem;
+      color: white;
+    }
+    body.dark .sauce-card .card-content h4,
+    body.dark .sauce-card .card-content p {
+      color: white !important;
+    }
+    
+    /* Hero Banner with Background Image */
+    .hero-banner {
+      background-image: url('images/saouce (5).jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-banner::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.5) 100%);
+      z-index: -1;
+    }
+    body.dark .hero-banner::before {
+      background: linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.65) 100%);
+    }
+    .hero-text-shadow {
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+    }
+    /* Video Styling */
+.recipe-video {
+  background: #000;
+  border-radius: 1rem 1rem 0 0;
+}
+
+.recipe-video::-webkit-media-controls-panel {
+  background: rgba(20, 20, 20, 0.92);
+}
+
+.recipe-video::-webkit-media-controls-play-button {
+  background-color: #e69d0b;
+  border-radius: 50%;
+}
+
+.recipe-video::-webkit-media-controls-timeline {
+  filter: hue-rotate(15deg);
+}
+
+.recipe-video::-webkit-media-controls-volume-slider {
+  filter: brightness(1.2);
+}
+
+  </style>
+</head>
+<body class="bg-white dark:bg-darkBg text-gray-900 dark:text-gray-100 font-sans antialiased">
+
+  <div class="min-h-screen flex flex-col">
+    <div class="mobile-overlay fixed inset-0 bg-black/70 z-[1000] hidden opacity-0" id="mobileOverlay"></div>
+
+    <header class="fixed top-0 left-0 right-0 z-[1000] bg-gradient-to-r from-brand-primary to-brand-light shadow-md">
+      <nav class="max-w-[1400px] mx-auto px-4 py-3 md:py-3">
+        <div class="bg-white dark:bg-darkCard rounded-2xl shadow-xl px-4 md:px-6 py-2 flex items-center justify-between min-h-[64px] transition-colors duration-300">
+          <div class="flex-shrink-0">
+            <a href="index.html" class="logo text-2xl md:text-3xl font-extrabold tracking-tight text-brand-primary whitespace-nowrap drop-shadow-sm">Scorza</a>
+          </div>
+          
+          <div class="hidden lg:flex flex-1 justify-center desktop-menu">
+            <ul class="flex items-center gap-1 xl:gap-1.5">
+              <li class="dropdown relative" id="homeDropdown">
+                <a href="#" class="dropdown-toggle flex items-center gap-1 text-sm font-semibold px-4 py-2 rounded-full text-gray-800 dark:text-gray-200 hover:bg-brand-primary hover:text-white transition-all duration-200">Home <i class="fas fa-chevron-down text-[10px] ml-1 transition-transform"></i></a>
+                <ul class="dropdown-menu absolute top-full left-1/2 -translate-x-1/2 bg-white dark:bg-darkCard rounded-xl shadow-lg min-w-[170px] py-2 opacity-0 invisible z-[1000] border border-gray-200 dark:border-gray-700">
+                  <li><a href="index.html" class="block px-5 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-brand-primary hover:text-white hover:pl-6 transition-all">Home 1</a></li>
+                  <li><a href="Home2.html" class="block px-5 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-brand-primary hover:text-white hover:pl-6 transition-all">Home 2</a></li>
+                </ul>
+              </li>
+              <li><a href="About.html" class="nav-link text-sm font-semibold px-4 py-2 rounded-full text-gray-800 dark:text-gray-200 hover:bg-brand-primary hover:text-white transition-all">About</a></li>
+              <li><a href="service.html" class="nav-link text-sm font-semibold px-4 py-2 rounded-full text-gray-800 dark:text-gray-200 hover:bg-brand-primary hover:text-white transition-all">Services</a></li>
+              <li><a href="pricing.html" class="nav-link text-sm font-semibold px-4 py-2 rounded-full text-gray-800 dark:text-gray-200 hover:bg-brand-primary hover:text-white transition-all">Pricing</a></li>             
+              <li>
+  <a href="flavorlab.html"
+     class="nav-link active text-sm font-semibold px-4 py-2 rounded-full bg-brand-primary text-white transition-all">
+     FlavorLab
+  </a>
+</li>
+  <li><a href="FAQ.html"
+                  class="nav-link text-sm font-semibold px-4 py-2 rounded-full hover:bg-brand-primary hover:text-white transition-all">FAQs</a>
+              </li>
+              <li><a href="contact.html" class="nav-link text-sm font-semibold px-4 py-2 rounded-full text-gray-800 dark:text-gray-200 hover:bg-brand-primary hover:text-white transition-all">Contact</a></li>
+              <li class="dropdown relative" id="dashboardDropdown">
+                <a href="#" class="dropdown-toggle flex items-center gap-1 text-sm font-semibold px-4 py-2 rounded-full text-gray-800 dark:text-gray-200 hover:bg-brand-primary hover:text-white transition-all">Dashboard <i class="fas fa-chevron-down text-[10px] ml-1"></i></a>
+                <ul class="dropdown-menu absolute top-full left-1/2 -translate-x-1/2 bg-white dark:bg-darkCard rounded-xl shadow-lg min-w-[170px] py-2 opacity-0 invisible z-[1000] border border-gray-200 dark:border-gray-700">
+                  <li><a href="admin.html" class="block px-5 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-brand-primary hover:text-white hover:pl-6 transition-all">Admin</a></li>
+                  <li><a href="user.html" class="block px-5 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-brand-primary hover:text-white hover:pl-6 transition-all">User</a></li>
+                </ul>
+              </li>
+                   <li><a href="login.html" class="text-sm font-semibold px-5 py-2 rounded-full bg-brand-primary text-white hover:bg-brand-dark transition-all shadow"> Login</a></li>
+            </ul>
+          </div>
+          
+          <div class="flex items-center gap-2">
+            <button class="desktop-only-control w-9 h-9 rounded-full flex items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all text-xl" id="themeToggle" title="Toggle theme">🌙</button>
+            <button class="desktop-only-control px-3 py-1.5 rounded-full text-sm font-semibold bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 hover:bg-brand-primary hover:text-white transition-all shadow-sm flex items-center gap-1" id="rtlToggleDesktop">
+              <span id="rtlToggleText">RTL</span>
+              <i class="fas fa-arrow-right-arrow-left text-xs opacity-70"></i>
+            </button>
+            <button class="mobile-menu-btn w-10 h-10 rounded-full flex items-center justify-center text-brand-primary dark:text-brand-light text-2xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-all" id="mobileMenuBtn" style="display: none;">
+              <i class="fas fa-bars"></i>
+            </button>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+  <div class="mobile-nav-menu fixed top-0 right-[-100%] w-[85%] max-w-sm h-full bg-gradient-to-br from-brand-primary to-brand-light z-[1001] shadow-2xl p-6 flex flex-col transition-all duration-300 overflow-y-auto" id="mobileNavMenu">
+      <button class="close-btn absolute top-5 right-5 text-white text-3xl hover:opacity-80 transition-all" id="closeMenuBtn">✕</button>
+      <ul class="mobile-nav-links flex flex-col gap-2 mt-14 flex-1">
+        <li class="mobile-dropdown" id="mobileHomeDropdown">
+          <a href="#" class="mobile-dropdown-toggle flex justify-between items-center w-full text-white font-semibold text-base py-3 px-4 rounded-xl border border-white/20 hover:bg-white/15 transition-all">Home <i class="fas fa-chevron-down text-xs transition-transform"></i></a>
+          <ul class="mobile-dropdown-menu list-none pl-5 mt-1 space-y-1">
+            <li><a href="index.html" class="block py-2 px-3 text-white/90 hover:bg-white/20 rounded-lg text-sm">Home 1</a></li>
+            <li><a href="Home2.html" class="block py-2 px-3 text-white/90 hover:bg-white/20 rounded-lg text-sm">Home 2</a></li>
+          </ul>
+        </li>
+        <li><a href="About.html" class="block text-white font-semibold text-base py-3 px-4 rounded-xl border border-white/20 hover:bg-white/15 transition-all">About</a></li>
+        <li><a href="service.html" class="block text-white font-semibold text-base py-3 px-4 rounded-xl border border-white/20 hover:bg-white/15 transition-all">Services</a></li>
+        <li><a href="pricing.html" class="block text-white font-semibold text-base py-3 px-4 rounded-xl border border-white/20 hover:bg-white/15 transition-all">Pricing</a></li>
+        <li><a href="flavorlab.html" class="active block text-white font-semibold text-base py-3 px-4 rounded-xl bg-white/25 border border-white/30">Flavorlab</a></li>
+        <li><a href="FAQ.html" class="block text-white font-semibold text-base py-3 px-4 rounded-xl border border-white/20 hover:bg-white/15 transition-all">FAQs</a></li>
+        <li><a href="contact.html" class="block text-white font-semibold text-base py-3 px-4 rounded-xl border border-white/20 hover:bg-white/15 transition-all">Contact</a></li>
+        <li class="mobile-dropdown" id="mobileDashboardDropdown">
+          <a href="#" class="mobile-dropdown-toggle flex justify-between items-center w-full text-white font-semibold text-base py-3 px-4 rounded-xl border border-white/20 hover:bg-white/15 transition-all">Dashboard <i class="fas fa-chevron-down text-xs"></i></a>
+          <ul class="mobile-dropdown-menu list-none pl-5 mt-1 space-y-1">
+            <li><a href="admin.html" class="block py-2 px-3 text-white/90 hover:bg-white/20 rounded-lg text-sm">Admin</a></li>
+            <li><a href="user.html" class="block py-2 px-3 text-white/90 hover:bg-white/20 rounded-lg text-sm">User</a></li>
+          </ul>
+        </li>
+        <!-- Register link removed from mobile menu as well -->
+        <li><a href="login.html" class="block text-white font-bold text-base py-3 px-4 rounded-xl bg-white/30 border border-white/40 hover:bg-white/40 transition-all">Log In</a></li>
+      </ul>
+      <div class="mt-8 pt-5 border-t border-white/30 flex flex-col gap-3">
+        <button class="mobile-action-btn flex items-center justify-center gap-3 py-3 rounded-full bg-white/15 backdrop-blur-sm border border-white/30 text-white font-medium hover:bg-white/30 transition-all" id="mobileThemeBtn">
+          <i class="fas fa-moon" id="mobileThemeIcon"></i>
+          <span id="mobileThemeLabel">Dark Mode</span>
+        </button>
+        <button class="mobile-action-btn flex items-center justify-center gap-3 py-3 rounded-full bg-white/15 backdrop-blur-sm border border-white/30 text-white font-medium hover:bg-white/30 transition-all" id="mobileRtlBtn">
+          <i class="fas fa-language"></i>
+          <span id="mobileRtlLabel">RTL Mode</span>
+        </button>
+      </div>
+    </div>
+    <main class="flex-1 mt-24">
+      
+      <!-- UPDATED HERO BANNER with new background image -->
+      <section class="hero-banner py-28 md:py-36 px-4 text-center relative">
+        <div class="max-w-4xl mx-auto relative z-10">
+          <span class="text-brand-primary font-bold tracking-widest uppercase text-sm bg-black/30 inline-block px-4 py-1 rounded-full hero-text-shadow">Traditional Recipes</span>
+          <h1 class="text-5xl md:text-7xl font-extrabold mt-6 mb-6 text-white hero-text-shadow">Traditional <span class="text-brand-primary">Sauce</span> Masterclass</h1>
+          <p class="text-xl text-gray-100 leading-relaxed mb-10 max-w-2xl mx-auto hero-text-shadow">
+            Discover the secrets behind our world-class sauces. From traditional ethnic blends to modern fusion dips, bring the taste of Scorza to your home kitchen.
+          </p>
+          <div class="flex flex-wrap justify-center gap-4">
+            <a href="#recipes" class="px-8 py-4 bg-brand-primary text-white rounded-full font-bold text-lg shadow-lg hover:bg-brand-dark transform hover:-translate-y-1 transition">Explore Recipes</a>
+            <a href="#videos" class="px-8 py-4 border-2 border-white text-white rounded-full font-bold text-lg hover:bg-brand-primary hover:border-brand-primary transition">Watch Tutorials</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Existing Recipe Cards Section -->
+      <section class="py-16 px-4 max-w-[1400px] mx-auto" id="recipes">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">Featured Recipes</h2>
+          <div class="w-20 h-1 bg-brand-primary mx-auto mt-4"></div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          
+          <div class="recipe-card bg-white dark:bg-darkCard rounded-[2.5rem] overflow-hidden shadow-xl border border-gray-100 dark:border-gray-700 transition-all duration-300">
+            <div class="h-64 overflow-hidden relative">
+              <img src="images/saouce (2).jpg" alt="Spicy Tomato" class="w-full h-full object-cover">
+              <div class="absolute top-4 left-4 bg-brand-primary text-white text-xs font-bold px-3 py-1 rounded-full">Easy</div>
+            </div>
+            <div class="p-8">
+              <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-3">Traditional Red Chili Base</h3>
+              <p class="text-gray-600 dark:text-gray-400 mb-6">The essential ethnic sauce that started it all. Perfect for pastas and grilled meats.</p>
+              <div class="flex items-center justify-between">
+                <span class="text-sm font-semibold text-brand-primary"><i class="far fa-clock mr-1"></i> 20 Mins</span>
+                <a href="#" class="bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-white px-5 py-2 rounded-full text-sm font-bold hover:bg-brand-primary hover:text-white transition-colors">View Details</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="recipe-card bg-white dark:bg-darkCard rounded-[2.5rem] overflow-hidden shadow-xl border border-gray-100 dark:border-gray-700 transition-all duration-300">
+            <div class="h-64 overflow-hidden relative">
+              <img src="images/saouce (3).jpg" alt="Garlic Herb" class="w-full h-full object-cover">
+              <div class="absolute top-4 left-4 bg-brand-primary text-white text-xs font-bold px-3 py-1 rounded-full">Medium</div>
+            </div>
+            <div class="p-8">
+              <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-3">Garlic Forest Infusion</h3>
+              <p class="text-gray-600 dark:text-gray-400 mb-6">A creamy, herb-rich sauce that brings an earthy aroma to any traditional dish.</p>
+              <div class="flex items-center justify-between">
+                <span class="text-sm font-semibold text-brand-primary"><i class="far fa-clock mr-1"></i> 35 Mins</span>
+                <a href="#" class="bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-white px-5 py-2 rounded-full text-sm font-bold hover:bg-brand-primary hover:text-white transition-colors">View Details</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="recipe-card bg-white dark:bg-darkCard rounded-[2.5rem] overflow-hidden shadow-xl border border-gray-100 dark:border-gray-700 transition-all duration-300">
+            <div class="h-64 overflow-hidden relative">
+              <img src="images/saouce (4).jpg" alt="Smoky BBQ" class="w-full h-full object-cover">
+              <div class="absolute top-4 left-4 bg-brand-primary text-white text-xs font-bold px-3 py-1 rounded-full">Expert</div>
+            </div>
+            <div class="p-8">
+              <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-3">Slow-Roasted BBQ Blaze</h3>
+              <p class="text-gray-600 dark:text-gray-400 mb-6">Master the art of smoky flavors with our signature slow-roasted barbecue blend.</p>
+              <div class="flex items-center justify-between">
+                <span class="text-sm font-semibold text-brand-primary"><i class="far fa-clock mr-1"></i> 60 Mins</span>
+                <a href="#" class="bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-white px-5 py-2 rounded-full text-sm font-bold hover:bg-brand-primary hover:text-white transition-colors">View Details</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- NEW SECTION 1: Chef's Tips & Techniques -->
+      <section class="py-16 px-4 max-w-[1400px] mx-auto">
+        <div class="text-center mb-12">
+          <div class="inline-block bg-brand-primary/10 dark:bg-brand-primary/20 rounded-full px-5 py-2 mb-4">
+            <span class="text-brand-primary font-semibold text-sm"><i class="fas fa-chef-hat mr-2"></i> Professional Insights</span>
+          </div>
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-3">Chef's Secret Techniques</h2>
+          <p class="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">Master the art of sauce making with these professional tips from our master chefs.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="section-card bg-white dark:bg-darkCard rounded-2xl p-6 shadow-lg border border-gray-100 dark:border-gray-700">
+            <div class="w-16 h-16 bg-brand-primary/10 rounded-full flex items-center justify-center mb-5">
+              <i class="fas fa-temperature-high text-2xl text-brand-primary"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-3">Perfect Temperature Control</h3>
+            <p class="text-gray-600 dark:text-gray-400 leading-relaxed">Simmering vs boiling makes all the difference. Our chefs recommend low and slow cooking to extract maximum flavor from spices and herbs without burning.</p>
+          </div>
+          <div class="section-card bg-white dark:bg-darkCard rounded-2xl p-6 shadow-lg border border-gray-100 dark:border-gray-700">
+            <div class="w-16 h-16 bg-brand-primary/10 rounded-full flex items-center justify-center mb-5">
+              <i class="fas fa-mortar-pestle text-2xl text-brand-primary"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-3">Spice Toasting Method</h3>
+            <p class="text-gray-600 dark:text-gray-400 leading-relaxed">Toast whole spices in a dry pan before grinding. This unlocks essential oils and deepens the flavor profile of any traditional sauce recipe.</p>
+          </div>
+          <div class="section-card bg-white dark:bg-darkCard rounded-2xl p-6 shadow-lg border border-gray-100 dark:border-gray-700">
+            <div class="w-16 h-16 bg-brand-primary/10 rounded-full flex items-center justify-center mb-5">
+              <i class="fas fa-hourglass-half text-2xl text-brand-primary"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-3">Patience & Resting Time</h3>
+            <p class="text-gray-600 dark:text-gray-400 leading-relaxed">Let sauces rest for 30 minutes after cooking. This allows the ingredients to marry and flavors to bloom into their full potential.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- NEW SECTION 2: Featured Sauce Collection - With Background Images (Icons Removed) -->
+      <section class="py-16 px-4 max-w-[1400px] mx-auto bg-gray-50 dark:bg-darkSurface rounded-3xl my-8">
+        <div class="text-center mb-12">
+          <div class="inline-block bg-brand-primary/10 dark:bg-brand-primary/20 rounded-full px-5 py-2 mb-4">
+            <span class="text-brand-primary font-semibold text-sm"><i class="fas fa-star mr-2"></i> Our Signatures</span>
+          </div>
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-3">Featured Sauce Collection</h2>
+          <p class="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">Explore our most beloved traditional sauces, crafted with generations of expertise.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <!-- Sauce Card 1 - Spicy Arrabbiata -->
+          <div class="sauce-card" style="background-image: url('images/saouce (6).jpg'); background-size: cover; background-position: center;">
+            <div class="card-content">
+              <h4 class="font-bold text-xl mb-1">Spicy Arrabbiata</h4>
+              <p class="text-sm text-white/90 mb-2">Classic Italian heat</p>
+              <div class="flex items-center gap-1 text-yellow-400 text-xs">
+                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+              </div>
+            </div>
+          </div>
+          <!-- Sauce Card 2 - Herb Pesto Verde -->
+          <div class="sauce-card" style="background-image: url('images/saouce (7).jpg'); background-size: cover; background-position: center;">
+            <div class="card-content">
+              <h4 class="font-bold text-xl mb-1">Herb Pesto Verde</h4>
+              <p class="text-sm text-white/90 mb-2">Fresh basil & pine nuts</p>
+              <div class="flex items-center gap-1 text-yellow-400 text-xs">
+                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+              </div>
+            </div>
+          </div>
+          <!-- Sauce Card 3 - Lemon Butter Caper -->
+          <div class="sauce-card" style="background-image: url('images/saouce (8).jpg'); background-size: cover; background-position: center;">
+            <div class="card-content">
+              <h4 class="font-bold text-xl mb-1">Lemon Butter Caper</h4>
+              <p class="text-sm text-white/90 mb-2">Bright & zesty finish</p>
+              <div class="flex items-center gap-1 text-yellow-400 text-xs">
+                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+              </div>
+            </div>
+          </div>
+          <!-- Sauce Card 4 - Smoky Chipotle -->
+          <div class="sauce-card" style="background-image: url('images/saouce (9).jpg'); background-size: cover; background-position: center;">
+            <div class="card-content">
+              <h4 class="font-bold text-xl mb-1">Smoky Chipotle</h4>
+              <p class="text-sm text-white/90 mb-2">Deep, smoky heat</p>
+              <div class="flex items-center gap-1 text-yellow-400 text-xs">
+                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- NEW SECTION 3: Cooking Video Tutorials & Tips -->
+      <section class="py-16 px-4 max-w-[1400px] mx-auto" id="videos">
+        <div class="text-center mb-12">
+          <div class="inline-block bg-brand-primary/10 dark:bg-brand-primary/20 rounded-full px-5 py-2 mb-4">
+            <span class="text-brand-primary font-semibold text-sm"><i class="fas fa-play-circle mr-2"></i> Watch & Learn</span>
+          </div>
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-3">Step-by-Step Video Guides</h2>
+          <p class="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">Follow along with our expert chefs as they demonstrate each traditional sauce recipe.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="section-card bg-white dark:bg-darkCard rounded-2xl overflow-hidden shadow-lg border border-gray-100 dark:border-gray-700">
+           <div class="relative rounded-t-2xl bg-black overflow-hidden">
+  <video 
+    class="w-full h-56 object-cover recipe-video"
+    controls
+    poster="images/saouce (6).jpg"
+  >
+    <source src="Images\saucevideo (1).mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+</div>
+            <div class="p-5">
+              <h3 class="font-bold text-gray-800 dark:text-white text-lg mb-2">Red Chili Base Masterclass</h3>
+              <p class="text-gray-500 dark:text-gray-400 text-sm">Learn the authentic method passed down through generations.</p>
+              <a href="#" class="inline-block mt-4 text-brand-primary font-semibold text-sm hover:underline">Watch Tutorial →</a>
+            </div>
+          </div>
+          <div class="section-card bg-white dark:bg-darkCard rounded-2xl overflow-hidden shadow-lg border border-gray-100 dark:border-gray-700">
+           <div class="relative overflow-hidden rounded-t-2xl">
+  <video 
+    class="w-full h-56 object-cover recipe-video"
+    controls
+    poster="images/saouce (6).jpg"
+  >
+    <source src="Images\saucevideo (2).mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+</div>
+            <div class="p-5">
+              <h3 class="font-bold text-gray-800 dark:text-white text-lg mb-2">Garlic Infusion Secrets</h3>
+              <p class="text-gray-500 dark:text-gray-400 text-sm">Master the creamy garlic herb sauce with professional techniques.</p>
+              <a href="#" class="inline-block mt-4 text-brand-primary font-semibold text-sm hover:underline">Watch Tutorial →</a>
+            </div>
+          </div>
+          <div class="section-card bg-white dark:bg-darkCard rounded-2xl overflow-hidden shadow-lg border border-gray-100 dark:border-gray-700">
+            <div class="relative overflow-hidden rounded-t-2xl">
+  <video 
+    class="w-full h-56 object-cover recipe-video"
+    controls
+    poster="Images\saouce (6).jpg"
+  >
+    <source src="Images\saucevideo (3).mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+</div>
+            <div class="p-5">
+              <h3 class="font-bold text-gray-800 dark:text-white text-lg mb-2">BBQ Blaze Workshop</h3>
+              <p class="text-gray-500 dark:text-gray-400 text-sm">Slow-roasted perfection for the ultimate smoky barbecue sauce.</p>
+              <a href="#" class="inline-block mt-4 text-brand-primary font-semibold text-sm hover:underline">Watch Tutorial →</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+  <footer class="bg-footer-bg dark:bg-gray-900 text-white pt-12 pb-6">
+      <div class="max-w-6xl mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+          <div class="flex flex-col items-center lg:items-start text-center lg:text-left"><a href="index.html"
+              class="logo text-3xl font-extrabold text-brand-primary mb-3">Scorza</a>
+            <p class="text-footer-text dark:text-gray-400 leading-relaxed">Artisanal hot sauces crafted with fire, tradition, and wild fermentation since 2026.</p>
+            <div class="flex gap-3 mt-5"><a href="#"
+                class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-primary transition-all"><i
+                  class="fab fa-facebook-f"></i></a><a href="#"
+                class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-primary transition-all"><i
+                  class="fab fa-instagram"></i></a><a href="#"
+                class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-primary transition-all"><i
+                  class="fab fa-twitter"></i></a></div>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold mb-4 border-b-2 border-brand-primary/30 inline-block">Shop</h3>
+            <ul class="footer-links space-y-2">
+              <li><a href="#"><i class="fas fa-chevron-right text-[10px]"></i> Hot Sauces</a></li>
+              <li><a href="#"><i class="fas fa-chevron-right text-[10px]"></i> Fermented Blends</a></li>
+              <li><a href="#"><i class="fas fa-chevron-right text-[10px]"></i> Limited Batches</a></li>
+              <li><a href="#"><i class="fas fa-chevron-right text-[10px]"></i> Gift Sets</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold mb-4 border-b-2 border-brand-primary/30 inline-block">QuickLinks</h3>
+            <ul class="footer-links space-y-2">
+              <li><a href="about.html"><i class="fas fa-chevron-right text-[10px]"></i> About </a></li>
+              <li><a href="contact.html"><i class="fas fa-chevron-right text-[10px]"></i> contact</a></li>
+              <li><a href="faq.html"><i class="fas fa-chevron-right text-[10px]"></i> Faq</a></li>
+              <li><a href="pricing.html"><i class="fas fa-chevron-right text-[10px]"></i> Pricing</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold mb-4 border-b-2 border-brand-primary/30 inline-block">Sauce Collection</h3>
+            <ul class="footer-links space-y-2">
+              <li><a href="#"><i class="fas fa-chevron-right text-[10px]"></i> Smoked Inferno</a></li>
+              <li><a href="#"><i class="fas fa-chevron-right text-[10px]"></i>   Garlic Ember</a></li>
+              <li><a href="#"><i class="fas fa-chevron-right text-[10px]"></i> Mango Blaze</a></li>
+              <li><a href="#"><i class="fas fa-chevron-right text-[10px]"></i> Ghost Fire Reserve</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="text-center mt-12 pt-6 border-t border-white/10 text-footer-text dark:text-gray-500 text-sm">
+          <p>© 2026 Scorza — Artisanal Sauce Crafters. All rights reserved. | <a href="#"
+              class="text-brand-primary hover:underline">Privacy</a> | <a href="#"
+              class="text-brand-primary hover:underline">Terms</a></p>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    /* COMPLETE FUNCTIONALITY FOR THEME TOGGLE, RTL, DROPDOWNS, MOBILE MENU */
+    const themeToggle = document.getElementById('themeToggle');
+    const mobileThemeBtn = document.getElementById('mobileThemeBtn');
+    const mobileThemeIcon = document.getElementById('mobileThemeIcon');
+    const mobileThemeLabel = document.getElementById('mobileThemeLabel');
+    const rtlDesktopBtn = document.getElementById('rtlToggleDesktop');
+    const rtlToggleTextSpan = document.getElementById('rtlToggleText');
+    const mobileRtlBtn = document.getElementById('mobileRtlBtn');
+    const mobileRtlLabel = document.getElementById('mobileRtlLabel');
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileNavMenu = document.getElementById('mobileNavMenu');
+    const closeMenuBtn = document.getElementById('closeMenuBtn');
+    const mobileOverlay = document.getElementById('mobileOverlay');
+
+    function setThemeUI(isDark) {
+      if (themeToggle) themeToggle.textContent = isDark ? '☀️' : '🌙';
+      if (mobileThemeIcon && mobileThemeLabel) {
+        if (isDark) { mobileThemeIcon.className = 'fas fa-sun'; mobileThemeLabel.textContent = 'Light Mode'; } 
+        else { mobileThemeIcon.className = 'fas fa-moon'; mobileThemeLabel.textContent = 'Dark Mode'; }
+      }
+    }
+
+    function toggleTheme() {
+      document.body.classList.toggle('dark');
+      const isDark = document.body.classList.contains('dark');
+      setThemeUI(isDark);
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    }
+
+    function updateRTLButtonUI(isRTL) {
+      if (rtlToggleTextSpan) rtlToggleTextSpan.textContent = isRTL ? 'LTR' : 'RTL';
+      if (mobileRtlLabel) mobileRtlLabel.textContent = isRTL ? 'LTR Mode' : 'RTL Mode';
+    }
+
+    function toggleRTL() {
+      const html = document.documentElement;
+      const currentDir = html.getAttribute('dir');
+      const newDir = currentDir === 'rtl' ? 'ltr' : 'rtl';
+      html.setAttribute('dir', newDir);
+      localStorage.setItem('dir', newDir);
+      updateRTLButtonUI(newDir === 'rtl');
+      if (mobileNavMenu && mobileNavMenu.classList.contains('open')) {
+        if (newDir === 'rtl') { mobileNavMenu.style.left = '0'; mobileNavMenu.style.right = 'auto'; } 
+        else { mobileNavMenu.style.right = '0'; mobileNavMenu.style.left = 'auto'; }
+      }
+    }
+
+    function closeAllDropdowns(except = null) {
+      const homeDD = document.getElementById('homeDropdown');
+      const dashDD = document.getElementById('dashboardDropdown');
+      if (homeDD && homeDD !== except) homeDD.classList.remove('active');
+      if (dashDD && dashDD !== except) dashDD.classList.remove('active');
+    }
+
+    function openMobileMenu() {
+      const isRtl = document.documentElement.getAttribute('dir') === 'rtl';
+      if (isRtl) { mobileNavMenu.style.left = '0'; mobileNavMenu.style.right = 'auto'; } 
+      else { mobileNavMenu.style.right = '0'; mobileNavMenu.style.left = 'auto'; }
+      mobileNavMenu.classList.add('open');
+      mobileOverlay.style.display = 'block';
+      setTimeout(() => { mobileOverlay.style.opacity = '1'; }, 10);
+      document.body.style.overflow = 'hidden';
+    }
+    
+    function closeMobileMenu() {
+      const isRtl = document.documentElement.getAttribute('dir') === 'rtl';
+      if (isRtl) { mobileNavMenu.style.left = '-100%'; } else { mobileNavMenu.style.right = '-100%'; }
+      mobileNavMenu.classList.remove('open');
+      mobileOverlay.style.opacity = '0';
+      setTimeout(() => { mobileOverlay.style.display = 'none'; }, 250);
+      document.body.style.overflow = '';
+    }
+
+    // Event Listeners
+    if (themeToggle) themeToggle.addEventListener('click', toggleTheme);
+    if (mobileThemeBtn) mobileThemeBtn.addEventListener('click', toggleTheme);
+    if (rtlDesktopBtn) rtlDesktopBtn.addEventListener('click', toggleRTL);
+    if (mobileRtlBtn) mobileRtlBtn.addEventListener('click', toggleRTL);
+    if (mobileMenuBtn) mobileMenuBtn.addEventListener('click', openMobileMenu);
+    if (closeMenuBtn) closeMenuBtn.addEventListener('click', closeMobileMenu);
+    if (mobileOverlay) mobileOverlay.addEventListener('click', closeMobileMenu);
+
+    // Load saved preferences
+    const savedDir = localStorage.getItem('dir');
+    if (savedDir === 'rtl') { document.documentElement.setAttribute('dir', 'rtl'); updateRTLButtonUI(true); } 
+    else { document.documentElement.setAttribute('dir', 'ltr'); updateRTLButtonUI(false); }
+    
+    if (localStorage.getItem('theme') === 'dark') { document.body.classList.add('dark'); setThemeUI(true); } 
+    else { setThemeUI(false); }
+
+    // Desktop Dropdowns
+    const homeDropdown = document.getElementById('homeDropdown');
+    const dashboardDropdown = document.getElementById('dashboardDropdown');
+    if (homeDropdown) {
+      homeDropdown.querySelector('.dropdown-toggle')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        const isActive = homeDropdown.classList.contains('active');
+        closeAllDropdowns(homeDropdown);
+        if (!isActive) homeDropdown.classList.add('active');
+      });
+    }
+    if (dashboardDropdown) {
+      dashboardDropdown.querySelector('.dropdown-toggle')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        const isActive = dashboardDropdown.classList.contains('active');
+        closeAllDropdowns(dashboardDropdown);
+        if (!isActive) dashboardDropdown.classList.add('active');
+      });
+    }
+    document.addEventListener('click', (e) => {
+      if (homeDropdown && !homeDropdown.contains(e.target)) homeDropdown.classList.remove('active');
+      if (dashboardDropdown && !dashboardDropdown.contains(e.target)) dashboardDropdown.classList.remove('active');
+    });
+
+    // Mobile Dropdowns
+    const mobileHomeDD = document.getElementById('mobileHomeDropdown');
+    const mobileDashDD = document.getElementById('mobileDashboardDropdown');
+    if (mobileHomeDD) {
+      mobileHomeDD.querySelector('.mobile-dropdown-toggle')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        mobileHomeDD.classList.toggle('active');
+        if (mobileDashDD) mobileDashDD.classList.remove('active');
+      });
+    }
+    if (mobileDashDD) {
+      mobileDashDD.querySelector('.mobile-dropdown-toggle')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        mobileDashDD.classList.toggle('active');
+        if (mobileHomeDD) mobileHomeDD.classList.remove('active');
+      });
+    }
+  </script>
+</body>
+</html>

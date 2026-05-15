@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Contact Us | Scorza – Get in Touch</title>
+  <link rel="icon" type="image/jpeg" href="images/growwpark_logo.jpg">
+  <!-- Tailwind CSS v3 + Font Awesome + Google Fonts -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              primary: '#e69d0b',
+              light: '#f0b341',
+              dark: '#d48a0a',
+            },
+            footer: {
+              bg: '#2c1810',
+              text: '#d4c5b8',
+            },
+            darkBg: '#121212',
+            darkCard: '#1e1e2a',
+            darkSurface: '#0f0f14',
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+          animation: {
+            'fade-in': 'fadeIn 0.2s ease-out',
+            'slide-down': 'slideDown 0.2s ease-out',
+            'float-slow': 'float 6s ease-in-out infinite',
+          },
+          keyframes: {
+            fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
+            slideDown: { '0%': { opacity: '0', transform: 'translateY(-8px)' }, '100%': { opacity: '1', transform: 'translateY(4px)' } },
+            float: { '0%, 100%': { transform: 'translateY(0px)' }, '50%': { transform: 'translateY(-10px)' } },
+          },
+        },
+      },
+    }
+  </script>
+  <style>
+    /* Global styles + navbar toggles visibility (RTL + Theme on desktop only) */
+    .dropdown-menu {
+      transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
+    }
+    .dropdown.active .dropdown-menu {
+      opacity: 1 !important;
+      visibility: visible !important;
+      transform: translateX(-50%) translateY(6px) !important;
+    }
+    [dir="rtl"] .dropdown.active .dropdown-menu {
+      transform: translateX(50%) translateY(6px) !important;
+    }
+    .mobile-dropdown-menu {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .mobile-dropdown.active .mobile-dropdown-menu {
+      max-height: 380px;
+    }
+    .mobile-nav-menu {
+      transition: right 0.35s ease;
+    }
+    [dir="rtl"] .mobile-nav-menu {
+      right: auto;
+      left: -100%;
+      transition: left 0.35s ease;
+    }
+    [dir="rtl"] .mobile-nav-menu.open {
+      left: 0 !important;
+      right: auto !important;
+    }
+    .mobile-nav-menu.open {
+      right: 0 !important;
+    }
+    .mobile-overlay {
+      transition: opacity 0.25s ease;
+    }
+    .footer-links a {
+      transition: all 0.25s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .footer-links a:hover {
+      transform: translateX(5px);
+      color: #e69d0b;
+    }
+    [dir="rtl"] .footer-links a:hover {
+      transform: translateX(-5px);
+    }
+    body {
+      transition: background-color 0.2s ease, color 0.2s ease;
+      background-color: #ffffff;
+      color: #1a1a2e;
+    }
+    body.dark {
+      background-color: #121212;
+      color: #e0e0e0;
+    }
+    @media (max-width: 1024px) {
+      .desktop-menu { display: none !important; }
+      .mobile-menu-btn { display: flex !important; }
+      .desktop-control-group { display: none !important; }
+    }
+    @media (min-width: 1025px) {
+      .mobile-menu-btn { display: none !important; }
+      .desktop-menu { display: flex !important; }
+      .desktop-control-group { display: flex !important; }
+    }
+    .nav-link {
+      transition: all 0.2s;
+    }
+    .mobile-nav-links a.active {
+      background: rgba(255,255,255,0.25);
+      border-left: 3px solid white;
+      font-weight: 600;
+    }
+    [dir="rtl"] .mobile-nav-links a.active {
+      border-left: none;
+      border-right: 3px solid white;
+    }
+    /* dark mode refinements */
+    .dark .bg-gray-50 {
+      background-color: #0a0a0f !important;
+    }
+    .dark .bg-white {
+      background-color: #1e1e2a !important;
+    }
+    body.dark .text-gray-700, body.dark .text-gray-600 {
+      color: #cbd5e1 !important;
+    }
+    body.dark .text-gray-800, body.dark .text-gray-900 {
+      color: #f1f5f9 !important;
+    }
+    /* Map styling */
+    .map-container iframe {
+      filter: grayscale(100%) invert(90%) contrast(90%);
+    }
+    .dark .map-container iframe {
+      filter: grayscale(100%) invert(100%) contrast(90%);
+    }
+    .contact-card {
+      transition: transform 0.25s ease, box-shadow 0.25s;
+    }
+    .contact-card:hover {
+      transform: translateY(-6px);
+    }
+    /* Dark mode footer */
+body.dark footer,
+body.dark footer.bg-footer-bg {
+  background-color: #000000 !important;
+}
+    
+  </style>
+</head>
+<body class="bg-white dark:bg-darkBg text-gray-900 dark:text-gray-100 font-sans antialiased">
+
+  <div class="min-h-screen flex flex-col">
+    <!-- Mobile Overlay -->
+    <div class="mobile-overlay fixed inset-0 bg-black/70 z-[1000] hidden opacity-0" id="mobileOverlay"></div>
+
+    <!-- Header Navbar: Desktop RTL + Theme toggles now visible -->
+    <header class="fixed top-0 left-0 right-0 z-[1000] bg-gradient-to-r from-brand-primary to-brand-light shadow-md">
+      <nav class="max-w-[1400px] mx-auto px-4 py-3 md:py-3">
+        <div class="bg-white dark:bg-darkCard rounded-2xl shadow-xl px-4 md:px-6 py-2 flex items-center justify-between min-h-[64px] transition-colors duration-300">
+          <!-- Logo -->
+          <div class="flex-shrink-0">
+            <a href="index.html" class="logo text-2xl md:text-3xl font-extrabold tracking-tight text-brand-primary whitespace-nowrap drop-shadow-sm">Scorza</a>
+          </div>
+          
+          <!-- Desktop Menu (visible on lg+) -->
+          <div class="hidden lg:flex flex-1 justify-center desktop-menu">
+            <ul class="flex items-center gap-1 xl:gap-1.5">
+              <li class="dropdown relative" id="homeDropdown">
+                <a href="#" class="dropdown-toggle flex items-center gap-1 text-sm font-semibold px-4 py-2 rounded-full text-gray-800 dark:text-gray-200 hover:bg-brand-primary hover:text-white transition-all">Home <i class="fas fa-chevron-down text-[10px] ml-1 transition-transform"></i></a>
+                <ul class="dropdown-menu absolute top-full left-1/2 -translate-x-1/2 bg-white dark:bg-darkCard rounded-xl shadow-lg min-w-[170px] py-2 opacity-0 invisible z-[1000] border border-gray-200 dark:border-gray-700">
+                  <li><a href="index.html" class="block px-5 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-brand-primary hover:text-white hover:pl-6 transition-all">Home 1</a></li>
+                  <li><a href="Home2.html" class="block px-5 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-brand-primary hover:text-white hover:pl-6 transition-all">Home 2</a></li>
+                </ul>
+              </li>
+              <li><a href="About.html" class="nav-link text-sm font-semibold px-4 py-2 rounded-full text-gray-800 dark:text-gray-200 hover:bg-brand-primary hover:text-white transition-all">About</a></li>
+              <li><a href="service.html" class="nav-link text-sm font-semibold px-4 py-2 rounded-full text-gray-800 dark:text-gray-200 hover:bg-brand-primary hover:text-white transition-all">Services</a></li>
+              <li><a href="pricing.html" class="nav-link text-sm font-semibold px-4 py-2 rounded-full text-gray-800 dark:text-gray-200 hover:bg-brand-primary hover:text-white transition-all">Pricing</a></li>
+              <li><a href="flavorlab.html" class="nav-link text-sm font-semibold px-4 py-2 rounded-full text-gray-800 dark:text-gray-200 hover:bg-brand-primary hover:text-white transition-all">FlavorLab</a></li>
+              <li><a href="FAQ.html" class="nav-link text-sm font-semibold px-4 py-2 rounded-full text-gray-800 dark:text-gray-200 hover:bg-brand-primary hover:text-white transition-all">FAQs</a></li>
+              <li><a href="contact.html" class="nav-link text-sm font-semibold px-4 py-2 rounded-full bg-brand-primary text-white transition-all">Contact</a></li>
+              <li class="dropdown relative" id="dashboardDropdown">
+                <a href="#" class="dropdown-toggle flex items-center gap-1 text-sm font-semibold px-4 py-2 rounded-full text-gray-800 dark:text-gray-200 hover:bg-brand-primary hover:text-white transition-all">Dashboard <i class="fas fa-chevron-down text-[10px] ml-1"></i></a>
+                <ul class="dropdown-menu absolute top-full left-1/2 -translate-x-1/2 bg-white dark:bg-darkCard rounded-xl shadow-lg min-w-[170px] py-2 opacity-0 invisible z-[1000] border border-gray-200 dark:border-gray-700">
+                  <li><a href="admin.html" class="block px-5 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-brand-primary hover:text-white hover:pl-6 transition-all">Admin</a></li>
+                  <li><a href="user.html" class="block px-5 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-brand-primary hover:text-white hover:pl-6 transition-all">User</a></li>
+                </ul>
+              </li>
+              <li><a href="login.html" class="text-sm font-semibold px-5 py-2 rounded-full bg-brand-primary text-white hover:bg-brand-dark transition-all shadow"> Login</a></li>
+            </ul>
+          </div>
+          
+          <!-- RIGHT CONTROLS: Theme + RTL (DESKTOP VISIBLE) + hamburger for mobile -->
+          <div class="flex items-center gap-2">
+            <!-- Desktop-only control group (visible on desktop, hidden on mobile) -->
+            <div class="desktop-control-group flex items-center gap-2">
+              <button class="w-9 h-9 rounded-full flex items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all text-xl" id="themeToggleDesktop" title="Toggle theme">
+                <i class="fas fa-moon" id="themeIconDesktop"></i>
+              </button>
+              <button class="px-3 py-1.5 rounded-full text-sm font-semibold bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 hover:bg-brand-primary hover:text-white transition-all shadow-sm flex items-center gap-1" id="rtlToggleDesktopBtn">
+                <span id="rtlToggleTextDesktop">RTL</span>
+                <i class="fas fa-arrow-right-arrow-left text-xs opacity-70"></i>
+              </button>
+            </div>
+            <!-- Mobile Hamburger (hidden on desktop) -->
+            <button class="mobile-menu-btn w-10 h-10 rounded-full flex items-center justify-center text-brand-primary dark:text-brand-light text-2xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-all" id="mobileMenuBtn" style="display: none;">
+              <i class="fas fa-bars"></i>
+            </button>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Mobile Navigation Drawer (identical with active state) -->
+    <div class="mobile-nav-menu fixed top-0 right-[-100%] w-[85%] max-w-sm h-full bg-gradient-to-br from-brand-primary to-brand-light z-[1001] shadow-2xl p-6 flex flex-col transition-all duration-300 overflow-y-auto" id="mobileNavMenu">
+      <button class="close-btn absolute top-5 right-5 text-white text-3xl hover:opacity-80 transition-all" id="closeMenuBtn">✕</button>
+      <ul class="mobile-nav-links flex flex-col gap-2 mt-14 flex-1">
+        <li class="mobile-dropdown" id="mobileHomeDropdown">
+          <a href="#" class="mobile-dropdown-toggle flex justify-between items-center w-full text-white font-semibold text-base py-3 px-4 rounded-xl border border-white/20 hover:bg-white/15 transition-all">Home <i class="fas fa-chevron-down text-xs transition-transform"></i></a>
+          <ul class="mobile-dropdown-menu list-none pl-5 mt-1 space-y-1">
+            <li><a href="index.html" class="block py-2 px-3 text-white/90 hover:bg-white/20 rounded-lg text-sm">Home 1</a></li>
+            <li><a href="Home2.html" class="block py-2 px-3 text-white/90 hover:bg-white/20 rounded-lg text-sm">Home 2</a></li>
+          </ul>
+        </li>
+        <li><a href="About.html" class="block text-white font-semibold text-base py-3 px-4 rounded-xl border border-white/20 hover:bg-white/15 transition-all">About</a></li>
+        <li><a href="service.html" class="block text-white font-semibold text-base py-3 px-4 rounded-xl border border-white/20 hover:bg-white/15 transition-all">Services</a></li>
+        <li><a href="pricing.html" class="block text-white font-semibold text-base py-3 px-4 rounded-xl border border-white/20 hover:bg-white/15 transition-all">Pricing</a></li>
+        <li><a href="flavorlab.html" class="block text-white font-semibold text-base py-3 px-4 rounded-xl border border-white/20 hover:bg-white/15 transition-all">Flavorlab</a></li>
+        <li><a href="FAQ.html" class="block text-white font-semibold text-base py-3 px-4 rounded-xl border border-white/20 hover:bg-white/15 transition-all">FAQs</a></li>
+        <li><a href="contact.html" class="active block text-white font-semibold text-base py-3 px-4 rounded-xl bg-white/25 border border-white/30">Contact</a></li>
+        <li class="mobile-dropdown" id="mobileDashboardDropdown">
+          <a href="#" class="mobile-dropdown-toggle flex justify-between items-center w-full text-white font-semibold text-base py-3 px-4 rounded-xl border border-white/20 hover:bg-white/15 transition-all">Dashboard <i class="fas fa-chevron-down text-xs"></i></a>
+          <ul class="mobile-dropdown-menu list-none pl-5 mt-1 space-y-1">
+            <li><a href="admin.html" class="block py-2 px-3 text-white/90 hover:bg-white/20 rounded-lg text-sm">Admin</a></li>
+            <li><a href="user.html" class="block py-2 px-3 text-white/90 hover:bg-white/20 rounded-lg text-sm">User</a></li>
+          </ul>
+        </li>
+        <li><a href="login.html" class="block text-white font-bold text-base py-3 px-4 rounded-xl bg-white/30 border border-white/40 hover:bg-white/40 transition-all">Log In</a></li>
+      </ul>
+      <div class="mt-8 pt-5 border-t border-white/30 flex flex-col gap-3">
+        <button class="mobile-action-btn flex items-center justify-center gap-3 py-3 rounded-full bg-white/15 backdrop-blur-sm border border-white/30 text-white font-medium hover:bg-white/30 transition-all" id="mobileThemeBtn">
+          <i class="fas fa-moon" id="mobileThemeIcon"></i>
+          <span id="mobileThemeLabel">Dark Mode</span>
+        </button>
+        <button class="mobile-action-btn flex items-center justify-center gap-3 py-3 rounded-full bg-white/15 backdrop-blur-sm border border-white/30 text-white font-medium hover:bg-white/30 transition-all" id="mobileRtlBtn">
+          <i class="fas fa-language"></i>
+          <span id="mobileRtlLabel">RTL Mode</span>
+        </button>
+      </div>
+    </div>
+
+    <main class="flex-1 mt-20">
+      <!-- Hero Section (with sauce image) -->
+      <section class="relative h-[400px] md:h-[500px] flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0">
+          <img src="https://images.pexels.com/photos/1279330/pexels-photo-1279330.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="Contact Hero Sauces" class="w-full h-full object-cover">
+          <div class="absolute inset-0 bg-black/60 dark:bg-black/75"></div>
+        </div>
+        <div class="relative z-10 max-w-4xl mx-auto px-4 text-center">
+          <h1 class="text-4xl md:text-7xl font-black text-brand-primary mb-6 animate-fade-in">Get In Touch</h1>
+          <p class="text-lg md:text-2xl text-white font-medium">Have a question about our secret recipes or need support? We're here to help.</p>
+        </div>
+      </section>
+
+      <!-- Contact Info + Form -->
+      <section class="py-16 px-4 max-w-[1400px] mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <!-- Left Contact Cards -->
+          <div class="space-y-6">
+            <div class="contact-card p-8 bg-white dark:bg-darkCard rounded-3xl shadow-lg border border-gray-100 dark:border-gray-700 transition-all">
+              <div class="w-12 h-12 bg-brand-primary/15 rounded-xl flex items-center justify-center mb-4 text-brand-primary text-2xl">
+                <i class="fas fa-envelope"></i>
+              </div>
+              <h3 class="text-xl font-bold mb-2 text-gray-800 dark:text-white">Email Us</h3>
+              <p class="text-gray-600 dark:text-gray-400">hello@scorza.com</p>
+              <p class="text-gray-600 dark:text-gray-400">support@scorza.com</p>
+            </div>
+            <div class="contact-card p-8 bg-white dark:bg-darkCard rounded-3xl shadow-lg border border-gray-100 dark:border-gray-700 transition-all">
+              <div class="w-12 h-12 bg-brand-primary/15 rounded-xl flex items-center justify-center mb-4 text-brand-primary text-2xl">
+                <i class="fas fa-phone-alt"></i>
+              </div>
+              <h3 class="text-xl font-bold mb-2 text-gray-800 dark:text-white">Call Us</h3>
+              <p class="text-gray-600 dark:text-gray-400">+1 (234) 567-890</p>
+              <p class="text-gray-600 dark:text-gray-400">Mon-Fri: 9am - 6pm</p>
+            </div>
+            <div class="contact-card p-8 bg-white dark:bg-darkCard rounded-3xl shadow-lg border border-gray-100 dark:border-gray-700 transition-all">
+              <div class="w-12 h-12 bg-brand-primary/15 rounded-xl flex items-center justify-center mb-4 text-brand-primary text-2xl">
+                <i class="fas fa-map-marker-alt"></i>
+              </div>
+              <h3 class="text-xl font-bold mb-2 text-gray-800 dark:text-white">Visit Us</h3>
+              <p class="text-gray-600 dark:text-gray-400">123 Flavor Avenue, Culinary District, San Francisco, CA 94103</p>
+            </div>
+          </div>
+
+          <!-- Contact Form -->
+          <div class="lg:col-span-2 bg-white dark:bg-darkCard rounded-[2rem] shadow-2xl p-8 md:p-12 border border-gray-100 dark:border-gray-700">
+            <form id="contactForm" action="#" class="space-y-6">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label class="block text-sm font-bold mb-2 text-gray-700 dark:text-gray-300">Your Name *</label>
+                  <input type="text" required class="w-full px-6 py-4 rounded-2xl bg-gray-50 dark:bg-darkSurface border border-transparent focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none transition-all dark:text-white" placeholder="John Doe">
+                </div>
+                <div>
+                  <label class="block text-sm font-bold mb-2 text-gray-700 dark:text-gray-300">Email Address *</label>
+                  <input type="email" required class="w-full px-6 py-4 rounded-2xl bg-gray-50 dark:bg-darkSurface border border-transparent focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none transition-all dark:text-white" placeholder="john@example.com">
+                </div>
+              </div>
+              <div>
+                <label class="block text-sm font-bold mb-2 text-gray-700 dark:text-gray-300">Subject</label>
+                <input type="text" class="w-full px-6 py-4 rounded-2xl bg-gray-50 dark:bg-darkSurface border border-transparent focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none transition-all dark:text-white" placeholder="How can we help?">
+              </div>
+              <div>
+                <label class="block text-sm font-bold mb-2 text-gray-700 dark:text-gray-300">Message *</label>
+                <textarea rows="5" required class="w-full px-6 py-4 rounded-2xl bg-gray-50 dark:bg-darkSurface border border-transparent focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none transition-all dark:text-white" placeholder="Tell us more about your inquiry..."></textarea>
+              </div>
+              <button type="submit" class="w-full md:w-auto bg-brand-primary hover:bg-brand-dark text-white font-bold py-4 px-12 rounded-full shadow-lg transition-all transform active:scale-95 flex items-center justify-center gap-2">
+                Send Message <i class="fas fa-paper-plane text-sm"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- Embedded Map -->
+      <section class="w-full h-[450px] map-container">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.0182255747685!2d-122.4194155!3d37.7749295!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8085809c6c8f4459%3A0xb10ed6d9b5050c58!2sSan%20Francisco%2C%20CA!5e0!3m2!1sen!2sus!4v1625682123456!5m2!1sen!2sus" 
+                class="w-full h-full border-0" 
+                allowfullscreen="" 
+                loading="lazy">
+        </iframe>
+      </section>
+    </main>
+
+     <footer class="bg-footer-bg dark:bg-gray-900 text-white pt-12 pb-6">
+      <div class="max-w-6xl mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+          <div class="flex flex-col items-center lg:items-start text-center lg:text-left"><a href="index.html"
+              class="logo text-3xl font-extrabold text-brand-primary mb-3">Scorza</a>
+            <p class="text-footer-text dark:text-gray-400 leading-relaxed">Artisanal hot sauces crafted with fire, tradition, and wild fermentation since 2026.</p>
+            <div class="flex gap-3 mt-5"><a href="#"
+                class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-primary transition-all"><i
+                  class="fab fa-facebook-f"></i></a><a href="#"
+                class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-primary transition-all"><i
+                  class="fab fa-instagram"></i></a><a href="#"
+                class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-primary transition-all"><i
+                  class="fab fa-twitter"></i></a></div>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold mb-4 border-b-2 border-brand-primary/30 inline-block">Shop</h3>
+            <ul class="footer-links space-y-2">
+              <li><a href="#"><i class="fas fa-chevron-right text-[10px]"></i> Hot Sauces</a></li>
+              <li><a href="#"><i class="fas fa-chevron-right text-[10px]"></i> Fermented Blends</a></li>
+              <li><a href="#"><i class="fas fa-chevron-right text-[10px]"></i> Limited Batches</a></li>
+              <li><a href="#"><i class="fas fa-chevron-right text-[10px]"></i> Gift Sets</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold mb-4 border-b-2 border-brand-primary/30 inline-block">QuickLinks</h3>
+            <ul class="footer-links space-y-2">
+              <li><a href="about.html"><i class="fas fa-chevron-right text-[10px]"></i> About </a></li>
+              <li><a href="contact.html"><i class="fas fa-chevron-right text-[10px]"></i> contact</a></li>
+              <li><a href="faq.html"><i class="fas fa-chevron-right text-[10px]"></i> Faq</a></li>
+              <li><a href="pricing.html"><i class="fas fa-chevron-right text-[10px]"></i> Pricing</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold mb-4 border-b-2 border-brand-primary/30 inline-block">Sauce Collection</h3>
+            <ul class="footer-links space-y-2">
+              <li><a href="#"><i class="fas fa-chevron-right text-[10px]"></i> Smoked Inferno</a></li>
+              <li><a href="#"><i class="fas fa-chevron-right text-[10px]"></i>   Garlic Ember</a></li>
+              <li><a href="#"><i class="fas fa-chevron-right text-[10px]"></i> Mango Blaze</a></li>
+              <li><a href="#"><i class="fas fa-chevron-right text-[10px]"></i> Ghost Fire Reserve</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="text-center mt-12 pt-6 border-t border-white/10 text-footer-text dark:text-gray-500 text-sm">
+          <p>© 2026 Scorza — Artisanal Sauce Crafters. All rights reserved. | <a href="#"
+              class="text-brand-primary hover:underline">Privacy</a> | <a href="#"
+              class="text-brand-primary hover:underline">Terms</a></p>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // ----- THEME TOGGLE (Desktop + Mobile) -----
+    const themeToggleDesktop = document.getElementById('themeToggleDesktop');
+    const themeIconDesktop = document.getElementById('themeIconDesktop');
+    const mobileThemeBtn = document.getElementById('mobileThemeBtn');
+    const mobileThemeIcon = document.getElementById('mobileThemeIcon');
+    const mobileThemeLabel = document.getElementById('mobileThemeLabel');
+
+    function updateThemeUI(isDark) {
+      if (themeIconDesktop) {
+        themeIconDesktop.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+      }
+      if (mobileThemeIcon && mobileThemeLabel) {
+        mobileThemeIcon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+        mobileThemeLabel.textContent = isDark ? 'Light Mode' : 'Dark Mode';
+      }
+    }
+
+    function toggleTheme() {
+      document.body.classList.toggle('dark');
+      const isDark = document.body.classList.contains('dark');
+      updateThemeUI(isDark);
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    }
+
+    if (themeToggleDesktop) themeToggleDesktop.addEventListener('click', toggleTheme);
+    if (mobileThemeBtn) mobileThemeBtn.addEventListener('click', toggleTheme);
+
+    if (localStorage.getItem('theme') === 'dark') {
+      document.body.classList.add('dark');
+      updateThemeUI(true);
+    } else {
+      updateThemeUI(false);
+    }
+
+    // ----- RTL TOGGLE (Desktop + Mobile) -----
+    const rtlDesktopBtn = document.getElementById('rtlToggleDesktopBtn');
+    const rtlToggleTextDesktop = document.getElementById('rtlToggleTextDesktop');
+    const mobileRtlBtn = document.getElementById('mobileRtlBtn');
+    const mobileRtlLabel = document.getElementById('mobileRtlLabel');
+
+    function updateRTLButtonUI(isRTL) {
+      if (rtlToggleTextDesktop) rtlToggleTextDesktop.textContent = isRTL ? 'LTR' : 'RTL';
+      if (mobileRtlLabel) mobileRtlLabel.textContent = isRTL ? 'LTR Mode' : 'RTL Mode';
+    }
+
+    function toggleRTL() {
+      const html = document.documentElement;
+      const currentDir = html.getAttribute('dir');
+      const newDir = currentDir === 'rtl' ? 'ltr' : 'rtl';
+      html.setAttribute('dir', newDir);
+      localStorage.setItem('dir', newDir);
+      updateRTLButtonUI(newDir === 'rtl');
+      if (mobileNavMenu && mobileNavMenu.classList.contains('open')) {
+        if (newDir === 'rtl') {
+          mobileNavMenu.style.left = '0';
+          mobileNavMenu.style.right = 'auto';
+        } else {
+          mobileNavMenu.style.right = '0';
+          mobileNavMenu.style.left = 'auto';
+        }
+      }
+    }
+
+    if (rtlDesktopBtn) rtlDesktopBtn.addEventListener('click', toggleRTL);
+    if (mobileRtlBtn) mobileRtlBtn.addEventListener('click', toggleRTL);
+
+    const savedDir = localStorage.getItem('dir');
+    if (savedDir === 'rtl') {
+      document.documentElement.setAttribute('dir', 'rtl');
+      updateRTLButtonUI(true);
+    } else {
+      document.documentElement.setAttribute('dir', 'ltr');
+      updateRTLButtonUI(false);
+    }
+
+    // ----- MOBILE MENU LOGIC -----
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileNavMenu = document.getElementById('mobileNavMenu');
+    const closeMenuBtn = document.getElementById('closeMenuBtn');
+    const mobileOverlay = document.getElementById('mobileOverlay');
+
+    function openMobileMenu() {
+      const isRtl = document.documentElement.getAttribute('dir') === 'rtl';
+      if (isRtl) {
+        mobileNavMenu.style.left = '0';
+        mobileNavMenu.style.right = 'auto';
+      } else {
+        mobileNavMenu.style.right = '0';
+        mobileNavMenu.style.left = 'auto';
+      }
+      mobileNavMenu.classList.add('open');
+      mobileOverlay.style.display = 'block';
+      setTimeout(() => { mobileOverlay.style.opacity = '1'; }, 10);
+      document.body.style.overflow = 'hidden';
+    }
+    function closeMobileMenu() {
+      const isRtl = document.documentElement.getAttribute('dir') === 'rtl';
+      if (isRtl) {
+        mobileNavMenu.style.left = '-100%';
+      } else {
+        mobileNavMenu.style.right = '-100%';
+      }
+      mobileNavMenu.classList.remove('open');
+      mobileOverlay.style.opacity = '0';
+      setTimeout(() => { mobileOverlay.style.display = 'none'; }, 250);
+      document.body.style.overflow = '';
+    }
+    if (mobileMenuBtn) mobileMenuBtn.addEventListener('click', openMobileMenu);
+    if (closeMenuBtn) closeMenuBtn.addEventListener('click', closeMobileMenu);
+    if (mobileOverlay) mobileOverlay.addEventListener('click', closeMobileMenu);
+
+    // Desktop dropdowns
+    const homeDropdown = document.getElementById('homeDropdown');
+    const dashboardDropdown = document.getElementById('dashboardDropdown');
+    function closeAllDesktopDropdowns(except = null) {
+      if (homeDropdown && homeDropdown !== except) homeDropdown.classList.remove('active');
+      if (dashboardDropdown && dashboardDropdown !== except) dashboardDropdown.classList.remove('active');
+    }
+    if (homeDropdown) {
+      homeDropdown.querySelector('.dropdown-toggle')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        const isActive = homeDropdown.classList.contains('active');
+        closeAllDesktopDropdowns(homeDropdown);
+        if (!isActive) homeDropdown.classList.add('active');
+      });
+    }
+    if (dashboardDropdown) {
+      dashboardDropdown.querySelector('.dropdown-toggle')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        const isActive = dashboardDropdown.classList.contains('active');
+        closeAllDesktopDropdowns(dashboardDropdown);
+        if (!isActive) dashboardDropdown.classList.add('active');
+      });
+    }
+    document.addEventListener('click', (e) => {
+      if (homeDropdown && !homeDropdown.contains(e.target)) homeDropdown.classList.remove('active');
+      if (dashboardDropdown && !dashboardDropdown.contains(e.target)) dashboardDropdown.classList.remove('active');
+    });
+
+    // Mobile dropdowns
+    const mobileHomeDD = document.getElementById('mobileHomeDropdown');
+    const mobileDashDD = document.getElementById('mobileDashboardDropdown');
+    if (mobileHomeDD) {
+      mobileHomeDD.querySelector('.mobile-dropdown-toggle')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        mobileHomeDD.classList.toggle('active');
+        if (mobileDashDD) mobileDashDD.classList.remove('active');
+      });
+    }
+    if (mobileDashDD) {
+      mobileDashDD.querySelector('.mobile-dropdown-toggle')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        mobileDashDD.classList.toggle('active');
+        if (mobileHomeDD) mobileHomeDD.classList.remove('active');
+      });
+    }
+
+    // simple form alert (non-intrusive)
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+      contactForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        alert('Thank you for reaching out! Our team will get back to you soon.');
+        contactForm.reset();
+      });
+    }
+  </script>
+</body>
+</html>
