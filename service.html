@@ -115,13 +115,32 @@
     /* Service card hover effect */
     .service-card {
       transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
     }
     .service-card:hover {
       transform: translateY(-8px) scale(1.01);
       box-shadow: 0 25px 35px -12px rgba(0, 0, 0, 0.25);
     }
+    /* Fix content wrapper to push button to bottom */
+    .service-card-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 1.75rem;
+    }
+    .service-card-description {
+      flex: 1;
+      margin-bottom: 1.25rem;
+    }
     .btn-view-more {
       transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: auto;
+      align-self: flex-start;
     }
     .btn-view-more:hover {
       transform: translateX(4px);
@@ -129,6 +148,13 @@
     }
     [dir="rtl"] .btn-view-more:hover {
       transform: translateX(-4px);
+    }
+    
+    /* Ensure all buttons stay at bottom on same row across different card heights */
+    .service-card-inner {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
     }
     
     /* Image placeholder style for cards */
@@ -141,10 +167,10 @@
       transform: scale(1.05);
     }
     /* Dark mode footer */
-body.dark footer,
-body.dark footer.bg-footer-bg {
-  background-color: #000000 !important;
-}
+    body.dark footer,
+    body.dark footer.bg-footer-bg {
+      background-color: #000000 !important;
+    }
   </style>
 </head>
 <body class="bg-white dark:bg-darkBg text-gray-900 dark:text-gray-100 font-sans antialiased">
@@ -173,8 +199,7 @@ body.dark footer.bg-footer-bg {
               <li><a href="about.html" class="nav-link text-sm font-semibold px-4 py-2 rounded-full text-gray-800 dark:text-gray-100 hover:bg-brand-primary hover:text-white transition-all">About</a></li>
               <li><a href="service.html" class="nav-link text-sm font-semibold px-4 py-2 rounded-full bg-brand-primary text-white transition-all shadow-md">Services</a></li>
               <li><a href="pricing.html" class="nav-link text-sm font-semibold px-4 py-2 rounded-full text-gray-800 dark:text-gray-200 hover:bg-brand-primary hover:text-white transition-all">Pricing</a></li>             
-                            <li><a href="flavorlab.html" class="nav-link text-sm font-semibold px-4 py-2 rounded-full text-gray-800 dark:text-gray-200 hover:bg-brand-primary hover:text-white transition-all">FlavorLab</a></li>
-
+              <li><a href="flavorlab.html" class="nav-link text-sm font-semibold px-4 py-2 rounded-full text-gray-800 dark:text-gray-200 hover:bg-brand-primary hover:text-white transition-all">FlavorLab</a></li>
               <li><a href="faq.html" class="nav-link text-sm font-semibold px-4 py-2 rounded-full text-gray-800 dark:text-gray-100 hover:bg-brand-primary hover:text-white transition-all">FAQs</a></li>
               <li><a href="contact.html" class="nav-link text-sm font-semibold px-4 py-2 rounded-full text-gray-800 dark:text-gray-100 hover:bg-brand-primary hover:text-white transition-all">Contact</a></li>
               <li class="dropdown relative" id="dashboardDropdown">
@@ -204,7 +229,7 @@ body.dark footer.bg-footer-bg {
     </header>
 
     <!-- Mobile Navigation Drawer -->
-  <div class="mobile-nav-menu fixed top-0 right-[-100%] w-[85%] max-w-sm h-full bg-gradient-to-br from-brand-primary to-brand-light z-[1001] shadow-2xl p-6 flex flex-col transition-all duration-300 overflow-y-auto" id="mobileNavMenu">
+    <div class="mobile-nav-menu fixed top-0 right-[-100%] w-[85%] max-w-sm h-full bg-gradient-to-br from-brand-primary to-brand-light z-[1001] shadow-2xl p-6 flex flex-col transition-all duration-300 overflow-y-auto" id="mobileNavMenu">
       <button class="close-btn absolute top-5 right-5 text-white text-3xl hover:opacity-80 transition-all" id="closeMenuBtn">✕</button>
       <ul class="mobile-nav-links flex flex-col gap-2 mt-14 flex-1">
         <li class="mobile-dropdown" id="mobileHomeDropdown">
@@ -215,8 +240,7 @@ body.dark footer.bg-footer-bg {
           </ul>
         </li>
         <li><a href="about.html" class="block text-white font-semibold text-base py-3 px-4 rounded-xl border border-white/20 hover:bg-white/15 transition-all">About</a></li>
-
-<li><a href="service.html" class="active block text-white font-semibold text-base py-3 px-4 rounded-xl bg-white/25 border border-white/30">Services</a></li>
+        <li><a href="service.html" class="active block text-white font-semibold text-base py-3 px-4 rounded-xl bg-white/25 border border-white/30">Services</a></li>
         <li><a href="pricing.html" class="block text-white font-semibold text-base py-3 px-4 rounded-xl border border-white/20 hover:bg-white/15 transition-all">Pricing</a></li>
         <li><a href="flavorlab.html" class="block text-white font-semibold text-base py-3 px-4 rounded-xl border border-white/20 hover:bg-white/15 transition-all">Flavorlab</a></li>
         <li><a href="faq.html" class="block text-white font-semibold text-base py-3 px-4 rounded-xl border border-white/20 hover:bg-white/15 transition-all">FAQs</a></li>
@@ -228,7 +252,6 @@ body.dark footer.bg-footer-bg {
             <li><a href="user.html" class="block py-2 px-3 text-white/90 hover:bg-white/20 rounded-lg text-sm">User</a></li>
           </ul>
         </li>
-        <!-- Register link removed from mobile menu as well -->
         <li><a href="login.html" class="block text-white font-bold text-base py-3 px-4 rounded-xl bg-white/30 border border-white/40 hover:bg-white/40 transition-all">Log In</a></li>
       </ul>
       <div class="mt-8 pt-5 border-t border-white/30 flex flex-col gap-3">
@@ -242,7 +265,8 @@ body.dark footer.bg-footer-bg {
         </button>
       </div>
     </div>
-    <!-- MAIN CONTENT: SERVICES PAGE with IMAGES instead of icons -->
+    
+    <!-- MAIN CONTENT: SERVICES PAGE with ALIGNED VIEW MORE BUTTONS (same row bottom alignment) -->
     <main class="flex-1 mt-24">
       <!-- Hero Banner Section -->
       <section class="services-hero py-28 md:py-36 px-4 relative overflow-hidden">
@@ -259,7 +283,7 @@ body.dark footer.bg-footer-bg {
         </div>
       </section>
 
-      <!-- 6 Service Cards Grid Section with Real Images -->
+      <!-- 6 Service Cards Grid with Flex column approach to ensure all "View More" buttons on same row at bottom -->
       <section id="services-cards" class="py-24 px-4 max-w-[1400px] mx-auto">
         <div class="text-center mb-16">
           <div class="inline-block bg-brand-primary/10 dark:bg-brand-primary/20 rounded-full px-5 py-2 mb-4">
@@ -269,157 +293,111 @@ body.dark footer.bg-footer-bg {
           <p class="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto text-lg">Handcrafted experiences for sauce lovers, chefs, and food brands. Each service is curated by our master blenders.</p>
         </div>
 
+        <!-- Grid with unified card structure using flex column and content wrapper -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <!-- Card 1 - Private Sauce Masterclass -->
-<div class="service-card bg-white dark:bg-darkCard rounded-3xl overflow-hidden shadow-xl border border-gray-100 dark:border-gray-700">
-  
-  <div class="h-56 overflow-hidden relative">
-    <img src="Images/saouce (1).jpg" alt="Private Sauce Masterclass"
-      class="w-full h-full object-cover">
-  </div>
+          
+          <!-- Card 1 - Private Sauce Masterclass -->
+          <div class="service-card bg-white dark:bg-darkCard rounded-3xl overflow-hidden shadow-xl border border-gray-100 dark:border-gray-700">
+            <div class="h-56 overflow-hidden relative">
+              <img src="Images/saouce (1).jpg" alt="Private Sauce Masterclass" class="w-full h-full object-cover">
+            </div>
+            <div class="service-card-content">
+              <div class="service-card-description">
+                <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-2">Private Sauce Masterclass</h3>
+                <p class="text-gray-600 dark:text-gray-300">Learn the art of traditional sauce-making in an intimate 1-on-1 session with our master chefs. Create your own signature blend.</p>
+              </div>
+              <a href="#" class="btn-view-more inline-flex items-center gap-2 text-brand-primary font-bold hover:text-white hover:bg-brand-primary px-5 py-2 rounded-full transition-all border border-brand-primary/40">
+                <span>View More</span>
+                <i class="fas fa-arrow-right text-sm"></i>
+              </a>
+            </div>
+          </div>
 
-  <div class="p-7">
-    <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-2">
-      Private Sauce Masterclass
-    </h3>
+          <!-- Card 2 -->
+          <div class="service-card bg-white dark:bg-darkCard rounded-3xl overflow-hidden shadow-xl border border-gray-100 dark:border-gray-700">
+            <div class="h-56 overflow-hidden relative">
+              <img src="Images/saouce (8).jpg" alt="Corporate Catering" class="w-full h-full object-cover">
+            </div>
+            <div class="service-card-content">
+              <div class="service-card-description">
+                <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-2">Corporate Catering</h3>
+                <p class="text-gray-600 dark:text-gray-300">Impress your team or clients with a curated sauce & dip bar. Elevate corporate events with premium flavor experiences and tasting journeys.</p>
+              </div>
+              <a href="#" class="btn-view-more inline-flex items-center gap-2 text-brand-primary font-bold hover:text-white hover:bg-brand-primary px-5 py-2 rounded-full transition-all border border-brand-primary/40">
+                <span>View More</span>
+                <i class="fas fa-arrow-right text-sm"></i>
+              </a>
+            </div>
+          </div>
 
-    <p class="text-gray-600 dark:text-gray-300 mb-5">
-      Learn the art of traditional sauce-making in an intimate 1-on-1 session with our master chefs.
-      Create your own signature blend.
-    </p>
+          <!-- Card 3 -->
+          <div class="service-card bg-white dark:bg-darkCard rounded-3xl overflow-hidden shadow-xl border border-gray-100 dark:border-gray-700">
+            <div class="h-56 overflow-hidden relative">
+              <img src="Images/saouce (11).jpg" alt="White Label Sauce Creation" class="w-full h-full object-cover">
+            </div>
+            <div class="service-card-content">
+              <div class="service-card-description">
+                <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-2">White Label Sauce Creation</h3>
+                <p class="text-gray-600 dark:text-gray-300">We develop and bottle custom sauces with your own brand identity. From concept to packaging, we bring your unique flavor vision to market.</p>
+              </div>
+              <a href="#" class="btn-view-more inline-flex items-center gap-2 text-brand-primary font-bold hover:text-white hover:bg-brand-primary px-5 py-2 rounded-full transition-all border border-brand-primary/40">
+                <span>View More</span>
+                <i class="fas fa-arrow-right text-sm"></i>
+              </a>
+            </div>
+          </div>
 
-    <a href="#"
-      class="btn-view-more inline-flex items-center gap-2 text-brand-primary font-bold hover:text-white hover:bg-brand-primary px-5 py-2 rounded-full transition-all border border-brand-primary/40">
-      <span>View More</span>
-      <i class="fas fa-arrow-right text-sm"></i>
-    </a>
-  </div>
-</div>
+          <!-- Card 4 -->
+          <div class="service-card bg-white dark:bg-darkCard rounded-3xl overflow-hidden shadow-xl border border-gray-100 dark:border-gray-700">
+            <div class="h-56 overflow-hidden relative">
+              <img src="Images/saouce (12).jpg" alt="Monthly Sauce Subscription" class="w-full h-full object-cover">
+            </div>
+            <div class="service-card-content">
+              <div class="service-card-description">
+                <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-2">Monthly Sauce Subscription</h3>
+                <p class="text-gray-600 dark:text-gray-300">Receive limited-batch sauces every month with exclusive recipes and early access to new releases delivered to your doorstep.</p>
+              </div>
+              <a href="#" class="btn-view-more inline-flex items-center gap-2 text-brand-primary font-bold hover:text-white hover:bg-brand-primary px-5 py-2 rounded-full transition-all border border-brand-primary/40">
+                <span>View More</span>
+                <i class="fas fa-arrow-right text-sm"></i>
+              </a>
+            </div>
+          </div>
 
-<!-- Card 2 -->
-<div class="service-card bg-white dark:bg-darkCard rounded-3xl overflow-hidden shadow-xl border border-gray-100 dark:border-gray-700">
-  
-  <div class="h-56 overflow-hidden relative">
-    <img src="Images/saouce (8).jpg" alt="Corporate Catering"
-      class="w-full h-full object-cover">
-  </div>
+          <!-- Card 5 -->
+          <div class="service-card bg-white dark:bg-darkCard rounded-3xl overflow-hidden shadow-xl border border-gray-100 dark:border-gray-700">
+            <div class="h-56 overflow-hidden relative">
+              <img src="Images/saouce (13).jpg" alt="Team Building Workshops" class="w-full h-full object-cover">
+            </div>
+            <div class="service-card-content">
+              <div class="service-card-description">
+                <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-2">Team Building Workshops</h3>
+                <p class="text-gray-600 dark:text-gray-300">Interactive sauce-making workshops for creative teams and groups. Strengthen collaboration through hands-on culinary challenges.</p>
+              </div>
+              <a href="#" class="btn-view-more inline-flex items-center gap-2 text-brand-primary font-bold hover:text-white hover:bg-brand-primary px-5 py-2 rounded-full transition-all border border-brand-primary/40">
+                <span>View More</span>
+                <i class="fas fa-arrow-right text-sm"></i>
+              </a>
+            </div>
+          </div>
 
-  <div class="p-7">
-    <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-2">
-      Corporate Catering
-    </h3>
-
-    <p class="text-gray-600 dark:text-gray-300 mb-5">
-      Impress your team or clients with a curated sauce & dip bar.
-    </p>
-
-    <a href="#"
-      class="btn-view-more inline-flex items-center gap-2 text-brand-primary font-bold hover:text-white hover:bg-brand-primary px-5 py-2 rounded-full transition-all border border-brand-primary/40">
-      <span>View More</span>
-      <i class="fas fa-arrow-right text-sm"></i>
-    </a>
-  </div>
-</div>
-
-<!-- Card 3 -->
-<div class="service-card bg-white dark:bg-darkCard rounded-3xl overflow-hidden shadow-xl border border-gray-100 dark:border-gray-700">
-  
-  <div class="h-56 overflow-hidden relative">
-    <img src="Images/saouce (11).jpg" alt="White Label Sauce Creation"
-      class="w-full h-full object-cover">
-  </div>
-
-  <div class="p-7">
-    <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-2">
-      White Label Sauce Creation
-    </h3>
-
-    <p class="text-gray-600 dark:text-gray-300 mb-5">
-      We develop and bottle custom sauces with your own brand identity.
-    </p>
-
-    <a href="#"
-      class="btn-view-more inline-flex items-center gap-2 text-brand-primary font-bold hover:text-white hover:bg-brand-primary px-5 py-2 rounded-full transition-all border border-brand-primary/40">
-      <span>View More</span>
-      <i class="fas fa-arrow-right text-sm"></i>
-    </a>
-  </div>
-</div>
-
-<!-- Card 4 -->
-<div class="service-card bg-white dark:bg-darkCard rounded-3xl overflow-hidden shadow-xl border border-gray-100 dark:border-gray-700">
-  
-  <div class="h-56 overflow-hidden relative">
-    <img src="Images/saouce (12).jpg" alt="Monthly Sauce Subscription"
-      class="w-full h-full object-cover">
-  </div>
-
-  <div class="p-7">
-    <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-2">
-      Monthly Sauce Subscription
-    </h3>
-
-    <p class="text-gray-600 dark:text-gray-300 mb-5">
-      Receive limited-batch sauces every month with exclusive recipes.
-    </p>
-
-    <a href="#"
-      class="btn-view-more inline-flex items-center gap-2 text-brand-primary font-bold hover:text-white hover:bg-brand-primary px-5 py-2 rounded-full transition-all border border-brand-primary/40">
-      <span>View More</span>
-      <i class="fas fa-arrow-right text-sm"></i>
-    </a>
-  </div>
-</div>
-
-<!-- Card 5 -->
-<div class="service-card bg-white dark:bg-darkCard rounded-3xl overflow-hidden shadow-xl border border-gray-100 dark:border-gray-700">
-  
-  <div class="h-56 overflow-hidden relative">
-    <img src="Images/saouce (13).jpg" alt="Team Building Workshops"
-      class="w-full h-full object-cover">
-  </div>
-
-  <div class="p-7">
-    <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-2">
-      Team Building Workshops
-    </h3>
-
-    <p class="text-gray-600 dark:text-gray-300 mb-5">
-      Interactive sauce-making workshops for creative teams and groups.
-    </p>
-
-    <a href="#"
-      class="btn-view-more inline-flex items-center gap-2 text-brand-primary font-bold hover:text-white hover:bg-brand-primary px-5 py-2 rounded-full transition-all border border-brand-primary/40">
-      <span>View More</span>
-      <i class="fas fa-arrow-right text-sm"></i>
-    </a>
-  </div>
-</div>
-
-<!-- Card 6 -->
-<div class="service-card bg-white dark:bg-darkCard rounded-3xl overflow-hidden shadow-xl border border-gray-100 dark:border-gray-700">
-  
-  <div class="h-56 overflow-hidden relative">
-    <img src="Images/saouce (14).jpg" alt="R&D and Flavor Consulting"
-      class="w-full h-full object-cover">
-  </div>
-
-  <div class="p-7">
-    <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-2">
-      R&D & Flavor Consulting
-    </h3>
-
-    <p class="text-gray-600 dark:text-gray-300 mb-5">
-      Award-winning sauce innovation from concept development to production.
-    </p>
-
-    <a href="#"
-      class="btn-view-more inline-flex items-center gap-2 text-brand-primary font-bold hover:text-white hover:bg-brand-primary px-5 py-2 rounded-full transition-all border border-brand-primary/40">
-      <span>View More</span>
-      <i class="fas fa-arrow-right text-sm"></i>
-    </a>
-  </div>
-</div>
+          <!-- Card 6 -->
+          <div class="service-card bg-white dark:bg-darkCard rounded-3xl overflow-hidden shadow-xl border border-gray-100 dark:border-gray-700">
+            <div class="h-56 overflow-hidden relative">
+              <img src="Images/saouce (14).jpg" alt="R&D and Flavor Consulting" class="w-full h-full object-cover">
+            </div>
+            <div class="service-card-content">
+              <div class="service-card-description">
+                <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-2">R&D & Flavor Consulting</h3>
+                <p class="text-gray-600 dark:text-gray-300">Award-winning sauce innovation from concept development to production. Expert guidance for restaurants and food brands.</p>
+              </div>
+              <a href="#" class="btn-view-more inline-flex items-center gap-2 text-brand-primary font-bold hover:text-white hover:bg-brand-primary px-5 py-2 rounded-full transition-all border border-brand-primary/40">
+                <span>View More</span>
+                <i class="fas fa-arrow-right text-sm"></i>
+              </a>
+            </div>
+          </div>
+        </div>
 
         <!-- CTA after cards -->
         <div class="text-center mt-16">
@@ -445,16 +423,9 @@ body.dark footer.bg-footer-bg {
     <footer class="bg-footer-bg dark:bg-gray-900 text-white pt-12 pb-6">
       <div class="max-w-6xl mx-auto px-4">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
-          <div class="flex flex-col items-center lg:items-start text-center lg:text-left"><a href="index.html"
-              class="logo text-3xl font-extrabold text-brand-primary mb-3">Scorza</a>
+          <div class="flex flex-col items-center lg:items-start text-center lg:text-left"><a href="index.html" class="logo text-3xl font-extrabold text-brand-primary mb-3">Scorza</a>
             <p class="text-footer-text dark:text-gray-400 leading-relaxed">Artisanal hot sauces crafted with fire, tradition, and wild fermentation since 2026.</p>
-            <div class="flex gap-3 mt-5"><a href="#"
-                class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-primary transition-all"><i
-                  class="fab fa-facebook-f"></i></a><a href="#"
-                class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-primary transition-all"><i
-                  class="fab fa-instagram"></i></a><a href="#"
-                class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-primary transition-all"><i
-                  class="fab fa-twitter"></i></a></div>
+            <div class="flex gap-3 mt-5"><a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-primary transition-all"><i class="fab fa-facebook-f"></i></a><a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-primary transition-all"><i class="fab fa-instagram"></i></a><a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-primary transition-all"><i class="fab fa-twitter"></i></a></div>
           </div>
           <div>
             <h3 class="text-lg font-bold mb-4 border-b-2 border-brand-primary/30 inline-block">Shop</h3>
@@ -478,23 +449,21 @@ body.dark footer.bg-footer-bg {
             <h3 class="text-lg font-bold mb-4 border-b-2 border-brand-primary/30 inline-block">Sauce Collection</h3>
             <ul class="footer-links space-y-2">
               <li><a href="#"><i class="fas fa-chevron-right text-[10px]"></i> Smoked Inferno</a></li>
-              <li><a href="#"><i class="fas fa-chevron-right text-[10px]"></i>   Garlic Ember</a></li>
+              <li><a href="#"><i class="fas fa-chevron-right text-[10px]"></i> Garlic Ember</a></li>
               <li><a href="#"><i class="fas fa-chevron-right text-[10px]"></i> Mango Blaze</a></li>
               <li><a href="#"><i class="fas fa-chevron-right text-[10px]"></i> Ghost Fire Reserve</a></li>
             </ul>
           </div>
         </div>
         <div class="text-center mt-12 pt-6 border-t border-white/10 text-footer-text dark:text-gray-500 text-sm">
-          <p>© 2026 Scorza — Artisanal Sauce Crafters. All rights reserved. | <a href="#"
-              class="text-brand-primary hover:underline">Privacy</a> | <a href="#"
-              class="text-brand-primary hover:underline">Terms</a></p>
+          <p>© 2026 Scorza — Artisanal Sauce Crafters. All rights reserved. | <a href="#" class="text-brand-primary hover:underline">Privacy</a> | <a href="#" class="text-brand-primary hover:underline">Terms</a></p>
         </div>
       </div>
     </footer>
   </div>
 
   <script>
-    // FULL FUNCTIONALITY: THEME, RTL, DROPDOWNS, MOBILE MENU
+    // FULL FUNCTIONALITY: THEME, RTL, DROPDOWNS, MOBILE MENU (unchanged logic preserved)
     const themeToggle = document.getElementById('themeToggle');
     const mobileThemeBtn = document.getElementById('mobileThemeBtn');
     const mobileThemeIcon = document.getElementById('mobileThemeIcon');
